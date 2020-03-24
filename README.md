@@ -2,6 +2,10 @@
 ## Descripción
 Sistema web de un hotel
 
+## Servidor AWS
+
+
+
 ## Funcionalidades
 - [ ] Hacer reservacion
 - [ ] Editar reservacion
@@ -18,9 +22,9 @@ Sistema web de un hotel
 - [ ] Elimnar habitacion
 
 ## Diagrama de clases
-- **reservacion**(id, fechaLlagada, fechaSalida, numAdultos, numNinos, precio, camas, tipoHabitacion, status, codigopromocioon, idCliente)
-- **estancia**(id, idreservacion, habitacion, num,Adultos, numNinos,precio, fechaCheckIn, fechaCheckOut, tipoEstancia(sin fecha de salida o con fecha de checkout),fechaCheckOut,codigopromocioon)
-- **habitacion**(numHabitacion, piso, numCamas, tipoHabitacion,status(ocupada y desocupada))
+- **reservacion**(idReservacion, fechaLlegada, fechaSalida, numAdultos, numNinos, precio, camas, tipoHabitacion, idCliente)
+- **estancia**(idEstancia, numHabitacion, numAdultos, numNinos,precio, fechaCheckIn, fechaCheckOut, idCliente)
+- **habitacion**(numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion,status(ocupada y desocupada))
 - **cliente**(idCliente,nombre,apellido,telefono, formaPago, correo)
 
 ## Mensajes
@@ -58,15 +62,15 @@ se muestra mensaje "se han actualizado correctamente los datos del cliente"
 
 - Eliminar cliente ¿Se eliminan los clientes registrados en un hotel?
 
-- Agregar habitacion
+- Agregar habitación
 
 se muestra mensaje "se ha registrado una nueva habitacion"
 
-- Modificar habitacion
+- Modificar habitación
 
 se muestra mensaje " se han actualizado los datos de la habitacion x"
 
-- Elimnar habitacion
+- Eliminar habitación
 
-se muestra mensaje "se ha eliminado la habitacion numero x"
+se muestra mensaje "se ha eliminado la habitación número x"
 
