@@ -2,9 +2,7 @@
 ## Descripción
 Sistema web de un hotel
 
-## Servidor AWS
-
-
+[Link del Servidor](http://54.162.225.248:8080/hotel.wsdl)
 
 ## Funcionalidades
 - [ ] Hacer reservacion
