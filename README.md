@@ -14,7 +14,7 @@ Sistema web de un hotel
 - [ ] Realizar check-out
 - [ ] Registrar cliente
 - [ ] Actualizar cliente
-- [ ] Eliminar cliente ¿?
+- [ ] Eliminar cliente `¿En un hotel se eliminan a los clientes o solo se modifican?`
 - [ ] Agregar habitacion
 - [ ] Modificar habitacion
 - [ ] Elimnar habitacion
