@@ -103,7 +103,9 @@ se muestra mensaje "se ha registrado al cliente correctamente"
 
 se muestra mensaje "se han actualizado correctamente los datos del cliente"
 
-- Eliminar cliente ¿Se eliminan los clientes registrados en un hotel?
+- Eliminar cliente `¿Se eliminan los clientes registrados en un hotel?`
+
+Se muestra mensaje "Se ha eliminado el cliente"
 
 - Agregar habitación
 
