@@ -35,7 +35,7 @@ Sistema web de un hotel
 | tipoHabitacion | String |
 | idCliente      | Int    |
 
-## Estancia
+### Estancia
 
 | Atributo      | Tipo   |
 | ------------- | ------ |
