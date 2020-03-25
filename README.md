@@ -20,10 +20,55 @@ Sistema web de un hotel
 - [ ] Elimnar habitacion
 
 ## Diagrama de clases
-- **reservacion**(idReservacion, fechaLlegada, fechaSalida, numAdultos, numNinos, precio, camas, tipoHabitacion, idCliente)
-- **estancia**(idEstancia, numHabitacion, numAdultos, numNinos,precio, fechaCheckIn, fechaCheckOut, idCliente)
-- **habitacion**(numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion,status(ocupada y desocupada))
-- **cliente**(idCliente,nombre,apellido,telefono, formaPago, correo)
+
+### Reservacion
+
+| Atributo       | Tipo   |
+| -------------- | ------ |
+| idReservacion  | Int    |
+| fechaLlegada   | Date   |
+| fechaSalida    | Date   |
+| numAdultos     | Int    |
+| numNinos       | Int    |
+| precio         | Double |
+| numCamas       | Int    |
+| tipoHabitacion | String |
+| idCliente      | Int    |
+
+## Estancia
+
+| Atributo      | Tipo   |
+| ------------- | ------ |
+| idEstancia    | Int    |
+| numHabitacion | Int    |
+| numAdultos    | Int    |
+| numNinos      | Int    |
+| precio        | Double |
+| fechaCheckIn  | Date   |
+| fechaCheckOut | Date   |
+| idCliente     | Int    |
+
+### Habitacion
+
+| Atributo                                | Tipo   |
+| --------------------------------------- | ------ |
+| numHabitacion                           | Int    |
+| Piso                                    | Int    |
+| numCamas                                | Int    |
+| CupoPersonas                            | Int    |
+| tipoHabitacion `suite, sencilla, doble` | String |
+| status `ocupada, desocupada`            | String |
+
+### Cliente
+
+| Atributo  | Tipo   |
+| --------- | ------ |
+| idCliente | Int    |
+| Nombre    | String |
+| Apellido  | String |
+| Correo    | String |
+| Telefono  | String |
+| formaPago | String |
 
 ## Mensajes
 - Hacer reservacion 
