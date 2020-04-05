@@ -5,7 +5,7 @@ Sistema web de un hotel
 [Link del Servidor](http://54.162.225.248:8080/hotel.wsdl)
 
 ## Funcionalidades
-- [ ] Hacer reservacion
+- [x] Hacer reservacion
 - [ ] Editar reservacion
 - [ ] Cancelar reservacion
 - [ ] Registrar check-in
