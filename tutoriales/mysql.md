@@ -39,20 +39,20 @@
 1. Abre tu consola de AWS
 
 2. Ve a tu EC2 Dashboard
-    ![1 - Dashboard](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/EC2/1.png)
+    ![1 - Dashboard](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/EC2/1.png)
 
 3. Da click en `running instances` y verifica que tu instancia este corriendo
-   ![2](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/EC2/2.png)
+   ![2](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/EC2/2.png)
 
 4. En la barra lateral de la izquierda selecciona la opcion que dice `Security Groups` 
-   ![3](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/EC2/3.png)
+   ![3](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/EC2/3.png)
 
 5. Da click en la opcion donde el `Security group name = launch-wizard-1`
-   ![4](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/EC2/4.png)
+   ![4](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/EC2/4.png)
 
 6. Te aparecera el siguiente panel
 
-   ![5](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/EC2/5.png)
+   ![5](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/EC2/5.png)
 
 7. Si **no** tienes alguna instancia de `MySQL/Aurora` entonces da click en `Edit inbound rules`
 
@@ -65,7 +65,7 @@
 1. Abre MySQL Workbrench
 
 2. Da click en el icono `+`
-   ![1](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/MySQLWorkbrench/1.png)
+   ![1](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/MySQLWorkbrench/1.png)
 
 3. Llena los campos
    `Connection Name` = nombre con el que guardaras la conexion 
@@ -74,7 +74,7 @@
    `Username` = nombre del usuario de tu base de datos (Ej. root)
    `Password` = click en <u>Store in keychain</u> e ingresas la contraseña del Username
 
-   ![Screen Shot 2020-04-05 at 3.10.44](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/MySQLWorkbrench/2.png)
+   ![Screen Shot 2020-04-05 at 3.10.44](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/MySQLWorkbrench/2.png)
 
 4. Da click en Test Connection
 
