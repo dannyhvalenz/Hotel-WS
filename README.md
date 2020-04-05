@@ -22,11 +22,11 @@ Sistema web de un hotel
 
 ### Reservacion
 
-| Atributo       | Tipo   |
-| -------------- | ------ |
+| Atributo       | Tipo   |Formato|
+| -------------- | ------ |-------|
 | idReservacion  | Int    |
-| fechaLlegada   | Date   |
-| fechaSalida    | Date   |
+| fechaLlegada   | Date   |`2019-11-05`|
+| fechaSalida    | Date   |`2019-11-05`|
 | numAdultos     | Int    |
 | numNinos       | Int    |
 | precio         | Double |
@@ -36,15 +36,15 @@ Sistema web de un hotel
 
 ### Estancia
 
-| Atributo      | Tipo   |
-| ------------- | ------ |
+| Atributo      | Tipo   | Formato|
+| ------------- | ------ | -------|
 | idEstancia    | Int    |
 | numHabitacion | Int    |
 | numAdultos    | Int    |
 | numNinos      | Int    |
 | precio        | Double |
-| fechaCheckIn  | Date   |
-| fechaCheckOut | Date   |
+| fechaCheckIn  | Date   |`2019-11-05`|
+| fechaCheckOut | Date   |`2019-11-05`|
 | idCliente     | Int    |
 
 ### Habitacion
