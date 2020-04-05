@@ -24,10 +24,14 @@ public class ConexionAWS {
 		
 		try {
 			this.conexion = DriverManager.getConnection(this.url,this.username,this.password);
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Conexion Fallida!:\n" + e.getMessage());
+		}
+
+		if (conexion != null) {
+			System.out.println("Conexion establecida");
+		} else {
+			System.out.println("No se pudo establecer conexion");
 		}
 		
 		return this.conexion;
