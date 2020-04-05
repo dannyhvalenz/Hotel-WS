@@ -12,7 +12,7 @@ Sistema web de un hotel
 - [ ] Registrar check-in
 - [ ] Aplazar estancia
 - [ ] Realizar check-out
-- [ ] Registrar cliente
+- [x] Registrar cliente
 - [ ] Actualizar cliente
 - [ ] Eliminar cliente `¿En un hotel se eliminan a los clientes o solo se modifican?`
 - [ ] Agregar habitacion
