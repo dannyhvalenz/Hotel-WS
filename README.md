@@ -94,6 +94,10 @@ se muestra mensaje " se ha registrado check in del cliente X en la habitacion X"
 
 se muestra mensaje "se ha aplazado la fecha de check out de la estancia del cliente X"
 
+- Registrar check-in
+
+se muestra el costo de la estancia
+
 - Registrar cliente
 
 se muestra mensaje "se ha registrado al cliente correctamente"
