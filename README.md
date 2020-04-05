@@ -8,16 +8,15 @@ Sistema web de un hotel
 - [ ] Hacer reservacion
 - [ ] Editar reservacion
 - [ ] Cancelar reservacion
-- [ ] Buscar reservacion
 - [ ] Registrar check-in
 - [ ] Aplazar estancia
 - [ ] Realizar check-out
 - [x] Registrar cliente
-- [ ] Actualizar cliente
-- [ ] Eliminar cliente `¿En un hotel se eliminan a los clientes o solo se modifican?`
-- [ ] Agregar habitacion
-- [ ] Modificar habitacion
-- [ ] Elimnar habitacion
+- [x] Actualizar cliente
+- [x] Eliminar cliente `¿En un hotel se eliminan a los clientes o solo se modifican?`
+- [x] Agregar habitacion
+- [x] Modificar habitacion
+- [x] Elimnar habitacion
 
 ## Diagrama de clases
 
