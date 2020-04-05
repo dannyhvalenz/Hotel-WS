@@ -1,5 +1,13 @@
 package com.proyecto.hotel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -19,6 +27,10 @@ import com.proyectosw.hotel.CancelarReservacionResponse;
 /*-----------------------------CLIENTE----------------------------------*/
 import com.proyectosw.hotel.RegistrarClienteRequest;
 import com.proyectosw.hotel.RegistrarClienteResponse;
+
+import controller.ClienteDAO;
+import controller.HabitacionDAO;
+import controller.ReservacionDAO;
 
 import com.proyectosw.hotel.EditarClienteRequest;
 import com.proyectosw.hotel.EditarClienteResponse;
@@ -57,7 +69,19 @@ public class EndPoint {
 	@ResponsePayload
 	public HacerReservacionResponse getHacerReservacion (@RequestPayload HacerReservacionRequest peticion) {
 		HacerReservacionResponse respuesta = new HacerReservacionResponse();
-		respuesta.setRespuesta("Se ha registrado la reservacion en el sistema");
+		
+		// Sacar num de dias para obtener precio por dias
+		
+		ReservacionDAO reservacion = new ReservacionDAO(peticion.getFechaLlegada(), peticion.getFechaSalida(), 
+				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),
+				peticion.getPrecio(),peticion.getIdCliente());
+		
+		if (reservacion.registrarReservacion()) {
+			respuesta.setRespuesta("Se ha registrado la reservacion en el sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido registrar la reservacion en la base de datos");
+		}
+		
 		return respuesta;
 	}
 	
@@ -67,7 +91,16 @@ public class EndPoint {
 	@ResponsePayload
 	public EditarReservacionResponse getEditarReservacion (@RequestPayload EditarReservacionRequest peticion) {
 		EditarReservacionResponse respuesta = new EditarReservacionResponse();
-		respuesta.setRespuesta("Se ha editado la reservacion con folio: "+ peticion.getIdReservacion() +"en el sistema");
+		
+		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion(),peticion.getFechaLlegada(), peticion.getFechaSalida(), peticion.getNumAdultos(),
+				peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getPrecio(),peticion.getIdCliente());
+		
+		if (reservacion.actualizarReservacion()) {
+			respuesta.setRespuesta("Se ha actualizado la reservacion numero '"+reservacion.getIdReservacion()+"' en el sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido actualizar la reservacion numero '"+reservacion.getIdReservacion()+"' en la base de datos");
+		}
+
 		return respuesta;
 	}
 	
@@ -77,41 +110,85 @@ public class EndPoint {
 	@ResponsePayload
 	public CancelarReservacionResponse getCancelarReservacion (@RequestPayload CancelarReservacionRequest peticion) {
 		CancelarReservacionResponse respuesta = new CancelarReservacionResponse();
-		respuesta.setRespuesta("Se ha editado la reservacion con folio: "+ peticion.getIdReservacion() +"en el sistema");
+		
+		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion());
+		
+		if (reservacion.eliminarReservacion()) {
+			respuesta.setRespuesta("Se ha eliminado la reservacion del sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido eliminar la reservacion de la base de datos");
+		}
+		
 		return respuesta;
 	}
 	
 	/*--CLIENTES-------------------------------------------------------------------------------------------*/
 	
 	
-	// Registrar Cliente
+	/**
+	 * Metodo para registrar cliente en el sistema
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "RegistrarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
 	public RegistrarClienteResponse getRegistrarCliente (@RequestPayload RegistrarClienteRequest peticion) {
 		RegistrarClienteResponse respuesta = new RegistrarClienteResponse();
-		respuesta.setRespuesta("Se ha registrado al cliente en el sistema");
+		
+		ClienteDAO cliente = new ClienteDAO(peticion.getNombre(), peticion.getApellido(), 
+				peticion.getTelefono(), peticion.getCorreo(), peticion.getFormaPago());
+		
+		if (cliente.registrarCliente()) {
+			respuesta.setRespuesta("Se ha registrado al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en el sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido registrar al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en la base de datos");
+		}
+		
 		return respuesta;
 	}
 	
-	// Editar Cliente
+	/**
+	 * Metodo para actualizar al cliente de la base de datos
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "EditarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
 	public EditarClienteResponse getEditarCliente (@RequestPayload EditarClienteRequest peticion) {
 		EditarClienteResponse respuesta = new EditarClienteResponse();
-		respuesta.setRespuesta("Se ha editado la infomacion del cliente "+ 
-				peticion.getNombre() + " " + peticion.getApellido() +"en el sistema");
+		ClienteDAO cliente = new ClienteDAO(peticion.getIdCliente(),peticion.getNombre(), peticion.getApellido(), 
+				peticion.getTelefono(), peticion.getCorreo(), peticion.getFormaPago());
+		if (cliente.verificarIdCliente()) {
+			if (cliente.actualizarCliente()) {
+				respuesta.setRespuesta("Se ha actualizado al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en el sistema");
+			} else {
+				respuesta.setRespuesta("No se ha podido actualizar al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en la base de datos");
+			}
+		} else {
+			respuesta.setRespuesta("El idCliente que ha ingresado no existe");
+		}
+		
 		return respuesta;
 	}
 	
-	// Eliminar Cliente
-	@PayloadRoot(localPart = "EliminarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
+	/**
+	 * Metodo para eliminar al cliente de la base de datos
+	 * @param peticion
+	 * @return respuesta "mensaje"
+	 */
+	@PayloadRoot(localPart = "EliminarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	@ResponsePayload
 	public EliminarClienteResponse getEliminarCliente (@RequestPayload EliminarClienteRequest peticion) {
 		EliminarClienteResponse respuesta = new EliminarClienteResponse();
-		respuesta.setRespuesta("Se ha eliminado el cliente del sistema");
+		ClienteDAO cliente = new ClienteDAO(peticion.getIdCliente());
+		if (cliente.eliminarCliente()) {
+			respuesta.setRespuesta("Se ha eliminado al cliente del sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido eliminar al cliente de la base de datos");
+		}
 		return respuesta;
 	}
 		
@@ -144,7 +221,7 @@ public class EndPoint {
 	@ResponsePayload
 	public RegistrarCheckOutResponse getRegistrarCheckOut (@RequestPayload RegistrarCheckOutRequest peticion) {
 		RegistrarCheckOutResponse respuesta = new RegistrarCheckOutResponse();
-		respuesta.setRespuesta("Se ha registrado el check-out de la estancia con folio: "+ peticion.getIdEstancia());
+		respuesta.getPrecio();
 		return respuesta;
 	}
 	
@@ -156,7 +233,13 @@ public class EndPoint {
 	@ResponsePayload
 	public AgregarHabitacionResponse getAgregarHabitacion (@RequestPayload AgregarHabitacionRequest peticion) {
 		AgregarHabitacionResponse respuesta = new AgregarHabitacionResponse();
-		respuesta.setRespuesta("Se ha agregado la habitacion " + peticion.getNumHabitacion() + "al sistema");
+		HabitacionDAO habitacion = new HabitacionDAO(peticion.getNumHabitacion(), peticion.getPiso(), peticion.getNumCamas(),
+				peticion.getCupoPersonas(), peticion.getTipoHabitacion(), peticion.getStatus());
+		if (habitacion.agregarHabitacion()) {
+			respuesta.setRespuesta("Se ha agregado la habitacion " +habitacion.getNumHabitacion()+" al sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido agregar la habitacion al sistema");
+		}
 		return respuesta;
 	}
 	
@@ -166,7 +249,13 @@ public class EndPoint {
 	@ResponsePayload
 	public EditarHabitacionResponse getEditarHabitacion (@RequestPayload EditarHabitacionRequest peticion) {
 		EditarHabitacionResponse respuesta = new EditarHabitacionResponse();
-		respuesta.setRespuesta("Se ha editado la habitacion " + peticion.getNumHabitacion());
+		HabitacionDAO habitacion = new HabitacionDAO(peticion.getNumHabitacion(), peticion.getPiso(), peticion.getNumCamas(),
+				peticion.getCupoPersonas(), peticion.getTipoHabitacion(), peticion.getStatus());
+		if (habitacion.actualizarHabitacion()) {
+			respuesta.setRespuesta("Se ha actualizado la habitacion " +habitacion.getNumHabitacion()+" en el sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido actualizar la habitacion al sistema");
+		}
 		return respuesta;
 	}
 	
@@ -176,7 +265,12 @@ public class EndPoint {
 	@ResponsePayload
 	public EliminarHabitacionResponse getEliminarHabitacion (@RequestPayload EliminarHabitacionRequest peticion) {
 		EliminarHabitacionResponse respuesta = new EliminarHabitacionResponse();
-		respuesta.setRespuesta("Se ha eliminado la habitacion " + peticion.getNumHabitacion());
+		HabitacionDAO habitacion = new HabitacionDAO(peticion.getNumHabitacion());
+		if (habitacion.eliminarHabitacion()) {
+			respuesta.setRespuesta("Se ha eliminado la habitacion " +peticion.getNumHabitacion()+" en el sistema");
+		} else {
+			respuesta.setRespuesta("No se ha podido eliminar la habitacion al sistema");
+		}
 		return respuesta;
 	}
 			
