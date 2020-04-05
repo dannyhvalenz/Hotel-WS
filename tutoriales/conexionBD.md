@@ -2,7 +2,7 @@
 
 1. Abre la carpeta de tu proyecto
 
-2. Descarga el zip del [JDBC Driver MySQL](https://dev.mysql.com/downloads/connector/j/)![Screen Shot 2020-04-05 at 3.25.02](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/Conexion con la BD/1.png)
+2. Descarga el zip del [JDBC Driver MySQL](https://dev.mysql.com/downloads/connector/j/)![Screen Shot 2020-04-05 at 3.25.02](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/Conexion con la BD/1.png)
 
 3. Descomprime el zip y agrega el JAR a la carpeta principal del proyecto, donde se encuentra el archivo `pom.xml`
 
@@ -17,7 +17,7 @@
    ```
 
 5. Deberas crear una clase `conexión.java`
-   ![Screen Shot 2020-04-05 at 3.29.19](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/Conexion con la BD/2.png)
+   ![Screen Shot 2020-04-05 at 3.29.19](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/Conexion con la BD/2.png)
 
 6. En esa clase pondras el siguiente esqueleto y solo cambiaras los datos necesarios
 
@@ -62,7 +62,7 @@
 7. Deberas crear dos paquetes `controladores` y `modelo`
 
 8. En el paquete `modelo` pondras las clases que tienes en tu BD y cada clase tendra sus constructores, getters y setters
-   ![Screen Shot 2020-04-05 at 3.34.21](/Users/dany/Documents/Proyectos /Hotel-WS/tutoriales/img/Conexion con la BD/3.png)
+   ![Screen Shot 2020-04-05 at 3.34.21](https://github.com/dannyhvalenz/Hotel-WS/blob/master/tutoriales/img/Conexion con la BD/3.png)
 
 9. En el paquete `controladores` pondras las clases `DAO (Data Access Object)` las cuales se componen de la siguiente estructura:
 
