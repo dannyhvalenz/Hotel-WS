@@ -12,7 +12,6 @@
 				<element name="fechaSalida" type="string"></element>
 				<element name="numAdultos" type="int"></element>
 				<element name="numNinos" type="int"></element>
-				<element name="precio" type="double"></element>
 				<element name="numCamas" type="int"></element>
 				<element name="tipoHabitacion" type="string"></element>
 				<element name="idCliente" type="int"></element>
@@ -23,9 +22,8 @@
 	<element name="HacerReservacionResponse">
 		<complexType>
 			<sequence>
-				<element name="respuesta" type="string">
-					
-				</element>
+				<element name="respuesta" type="string"></element>
+				<element name="precio" type="double"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -38,7 +36,6 @@
 				<element name="fechaSalida" type="string"></element>
 				<element name="numAdultos" type="int"></element>
 				<element name="numNinos" type="int"></element>
-				<element name="precio" type="double"></element>
 				<element name="numCamas" type="int"></element>
 				<element name="tipoHabitacion" type="string"></element>
 				<element name="idCliente" type="int"></element>
@@ -49,9 +46,8 @@
 	<element name="EditarReservacionResponse">
 		<complexType>
 			<sequence>
-				<element name="respuesta" type="string">
-					
-				</element>
+				<element name="respuesta" type="string"></element>
+				<element name="precio" type="double"></element>
 			</sequence>
 		</complexType>
 	</element>

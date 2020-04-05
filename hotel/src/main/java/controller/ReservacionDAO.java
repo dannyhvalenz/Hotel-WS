@@ -30,7 +30,7 @@ public class ReservacionDAO {
 	 * @param idCliente
 	 */
 	public ReservacionDAO(int idReservacion, String fechaLlegada, String fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion, double precio, int idCliente) {
+			int numCamas, String tipoHabitacion,  int idCliente) {
 		this.idReservacion = idReservacion;
 		this.fechaLlegada = Date.valueOf(fechaLlegada);
 		this.fechaSalida = Date.valueOf(fechaSalida);
@@ -38,7 +38,6 @@ public class ReservacionDAO {
 		this.numNinos = numNinos;
 		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
-		this.precio = precio;
 		this.idCliente = idCliente;
 	}
 	
@@ -53,14 +52,13 @@ public class ReservacionDAO {
 	 * @param idCliente
 	 */
 	public ReservacionDAO(String fechaLlegada, String fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion, double precio, int idCliente) {
+			int numCamas, String tipoHabitacion, int idCliente) {
 		this.fechaLlegada = Date.valueOf(fechaLlegada);
 		this.fechaSalida = Date.valueOf(fechaSalida);
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
 		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
-		this.precio = precio;
 		this.idCliente = idCliente;
 	}
 	
@@ -140,5 +138,32 @@ public class ReservacionDAO {
 			e.printStackTrace();
 		}
 		return resultado;
+	}
+	
+	/**
+	 * Metodo para obtener el precio aproximado de la estancia
+	 * @return precio
+	 */
+	public double getPrecio() {
+		double costoHabitacion = 0.0;
+		
+		int dias=(int) ((this.fechaSalida.getTime()-this.fechaLlegada.getTime())/86400000);
+		
+		switch (this.tipoHabitacion) {
+			case "Individual":
+				costoHabitacion = 900.0;
+				this.precio = costoHabitacion * dias;
+				break;
+			case "Doble":
+				costoHabitacion = 1300.0;
+				this.precio = costoHabitacion * dias;
+				break;
+			case "Suite":
+				costoHabitacion = 2000.0;
+				this.precio = costoHabitacion * dias;
+				break;
+		}
+		
+		return this.precio;
 	}
 }

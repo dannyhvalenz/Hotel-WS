@@ -63,7 +63,11 @@ public class EndPoint {
 	/*--RESERVACIONES--------------------------------------------------------------------------------------*/
 	
 	
-	// Hacer Reservacion
+	/**
+	 * Metodo para registrar o hacer una reservacion
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "HacerReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -73,11 +77,13 @@ public class EndPoint {
 		// Sacar num de dias para obtener precio por dias
 		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getFechaLlegada(), peticion.getFechaSalida(), 
-				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),
-				peticion.getPrecio(),peticion.getIdCliente());
+				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
+		double precio = reservacion.getPrecio();
+		System.out.println("precio = " + precio);
 		if (reservacion.registrarReservacion()) {
 			respuesta.setRespuesta("Se ha registrado la reservacion en el sistema");
+			respuesta.setPrecio(precio);
 		} else {
 			respuesta.setRespuesta("No se ha podido registrar la reservacion en la base de datos");
 		}
@@ -85,7 +91,11 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Editar Reservacion
+	/**
+	 * Metodo para editar una reservacion
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "EditarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -93,10 +103,13 @@ public class EndPoint {
 		EditarReservacionResponse respuesta = new EditarReservacionResponse();
 		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion(),peticion.getFechaLlegada(), peticion.getFechaSalida(), peticion.getNumAdultos(),
-				peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getPrecio(),peticion.getIdCliente());
+				peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
+		double precio = reservacion.getPrecio();
+		System.out.println("precio = " + precio);
 		if (reservacion.actualizarReservacion()) {
 			respuesta.setRespuesta("Se ha actualizado la reservacion numero '"+reservacion.getIdReservacion()+"' en el sistema");
+			respuesta.setPrecio(precio);
 		} else {
 			respuesta.setRespuesta("No se ha podido actualizar la reservacion numero '"+reservacion.getIdReservacion()+"' en la base de datos");
 		}

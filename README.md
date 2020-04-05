@@ -181,5 +181,9 @@ SpringBoot dependencies
 
 
 
+qK4rRuF6^B
 
+
+
+ CREATE USER 'hotel'@'localhost' IDENTIFIED BY 'qK4rRuF6^B';
 
