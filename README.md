@@ -6,7 +6,7 @@ Sistema web de un hotel
 
 ## Funcionalidades
 - [x] Hacer reservacion
-- [ ] Editar reservacion
+- [x] Editar reservacion
 - [ ] Cancelar reservacion
 - [ ] Registrar check-in
 - [ ] Aplazar estancia
