@@ -16,8 +16,8 @@ public class ConexionAWS {
 	String hostname = "54.162.225.248";
 	String port = "3306";
 	String url = "jdbc:mysql://"+hostname+":"+port+"/"+database+"?useTimezone=true&serverTimezone=UTC";
-	String username = "hotel";
-	String password = "qK4rRuF6^B";
+	String username = "root";
+	String password = "12345";
 	
 	public Connection connect() {
 		try{

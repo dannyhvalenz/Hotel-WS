@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="numCamas" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="tipoHabitacion" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="idCliente" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="precio" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -48,10 +49,11 @@ import javax.xml.bind.annotation.XmlType;
     "numNinos",
     "numCamas",
     "tipoHabitacion",
-    "idCliente"
+    "idCliente",
+    "precio"
 })
-@XmlRootElement(name = "HacerReservacionRequest")
-public class HacerReservacionRequest {
+@XmlRootElement(name = "ConsultarReservacionResponse")
+public class ConsultarReservacionResponse {
 
     @XmlElement(required = true)
     protected String fechaLlegada;
@@ -63,6 +65,7 @@ public class HacerReservacionRequest {
     @XmlElement(required = true)
     protected String tipoHabitacion;
     protected int idCliente;
+    protected double precio;
 
     /**
      * Gets the value of the fechaLlegada property.
@@ -198,6 +201,22 @@ public class HacerReservacionRequest {
      */
     public void setIdCliente(int value) {
         this.idCliente = value;
+    }
+
+    /**
+     * Gets the value of the precio property.
+     * 
+     */
+    public double getPrecio() {
+        return precio;
+    }
+
+    /**
+     * Sets the value of the precio property.
+     * 
+     */
+    public void setPrecio(double value) {
+        this.precio = value;
     }
 
 }

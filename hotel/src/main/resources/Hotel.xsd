@@ -70,7 +70,28 @@
 		</complexType>
 	</element>
 	
+	<element name="ConsultarReservacionRequest">
+		<complexType>
+			<sequence>
+				<element name="idReservacion" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
 	
+	<element name="ConsultarReservacionResponse">
+		<complexType>
+			<sequence>
+				<element name="fechaLlegada" type="string"></element>
+				<element name="fechaSalida" type="string"></element>
+				<element name="numAdultos" type="int"></element>
+				<element name="numNinos" type="int"></element>
+				<element name="numCamas" type="int"></element>
+				<element name="tipoHabitacion" type="string"></element>
+				<element name="idCliente" type="int"></element>
+				<element name="precio" type="double"></element>
+			</sequence>
+		</complexType>
+	</element>
 
 	<!--Estancia-->	
 	<element name="RegistrarCheckInRequest">

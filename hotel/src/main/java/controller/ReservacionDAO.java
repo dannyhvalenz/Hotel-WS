@@ -2,8 +2,10 @@ package controller;
 
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.ResultSet;
 
 import database.ConexionAWS;
+import model.Reservacion;
 
 public class ReservacionDAO {
 	private int idReservacion;
@@ -165,5 +167,26 @@ public class ReservacionDAO {
 		}
 		
 		return this.precio;
+	}
+	
+	/**
+	 * Metodo para consultar una reservacion
+	 * @param id
+	 * @return
+	 */
+	public Reservacion consultarReservacion(int id) {
+		Reservacion reservacion = null;
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM reservaciones WHERE idReservacion="+id);
+			while(rs.next()) {
+				reservacion = new Reservacion(rs.getDate("fechaLlegada"),rs.getDate("fechaSalida"),
+						rs.getInt("numAdultos"), rs.getInt("numNinos"), rs.getInt("numCamas"), 
+						rs.getString("tipoHabitacion"), rs.getDouble("precio"), rs.getInt("idCliente"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reservacion;
 	}
 }

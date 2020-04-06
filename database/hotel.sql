@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 05/04/2020 03:45:31
+ Date: 05/04/2020 20:25:24
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `clientes` (
   `telefono` varchar(45) NOT NULL,
   `formaPago` varchar(45) NOT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of clientes
@@ -125,6 +125,7 @@ INSERT INTO `clientes` VALUES (87, 'Stone', 'Reyes', 'sollicitudin@lectusquismas
 INSERT INTO `clientes` VALUES (88, 'Sasha', 'Mckay', 'in.faucibus.orci@faucibus.edu', '980-479-9306', 'Credito');
 INSERT INTO `clientes` VALUES (89, 'Leah', 'Walker', 'leo@Nunc.net', '143-912-3492', 'Debito');
 INSERT INTO `clientes` VALUES (97, 'Dalton', 'Mcdowell', 'sed.sapien@nisl.ca', '641-353-5135', 'Credito');
+INSERT INTO `clientes` VALUES (98, '[string]', '[string]', '[string]', '[string]', '[string]');
 COMMIT;
 
 -- ----------------------------
@@ -237,12 +238,14 @@ CREATE TABLE `reservaciones` (
   `idCliente` int(11) NOT NULL,
   PRIMARY KEY (`idReservacion`),
   KEY `IdClienteReservacion` (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of reservaciones
 -- ----------------------------
 BEGIN;
+INSERT INTO `reservaciones` VALUES (1, '2020-11-09', '2020-11-21', 1, 0, 1, 'Individual', 10800, 2);
+INSERT INTO `reservaciones` VALUES (2, '2020-04-05', '2020-04-10', 2, 1, 2, 'Doble', 5000, 3);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

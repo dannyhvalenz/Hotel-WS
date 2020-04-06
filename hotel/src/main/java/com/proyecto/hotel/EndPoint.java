@@ -1,7 +1,9 @@
 package com.proyecto.hotel;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -23,7 +25,8 @@ import com.proyectosw.hotel.EliminarClienteRequest;
 import com.proyectosw.hotel.EliminarClienteResponse;
 import com.proyectosw.hotel.CancelarReservacionRequest;
 import com.proyectosw.hotel.CancelarReservacionResponse;
-
+import com.proyectosw.hotel.ConsultarReservacionRequest;
+import com.proyectosw.hotel.ConsultarReservacionResponse;
 /*-----------------------------CLIENTE----------------------------------*/
 import com.proyectosw.hotel.RegistrarClienteRequest;
 import com.proyectosw.hotel.RegistrarClienteResponse;
@@ -31,6 +34,7 @@ import com.proyectosw.hotel.RegistrarClienteResponse;
 import controller.ClienteDAO;
 import controller.HabitacionDAO;
 import controller.ReservacionDAO;
+import model.Reservacion;
 
 import com.proyectosw.hotel.EditarClienteRequest;
 import com.proyectosw.hotel.EditarClienteResponse;
@@ -130,6 +134,43 @@ public class EndPoint {
 			respuesta.setRespuesta("Se ha eliminado la reservacion del sistema");
 		} else {
 			respuesta.setRespuesta("No se ha podido eliminar la reservacion de la base de datos");
+		}
+		
+		return respuesta;
+	}
+	
+	/**
+	 * Metodo para consultar la informacion de una reservacion
+	 * @param peticion
+	 * @return
+	 */
+	@PayloadRoot(localPart = "ConsultarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ConsultarReservacionResponse getConsultarReservacion (@RequestPayload ConsultarReservacionRequest peticion) {
+		ConsultarReservacionResponse respuesta = new ConsultarReservacionResponse();
+		
+		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion());
+		
+		Reservacion r = reservacion.consultarReservacion(peticion.getIdReservacion());
+		
+		if (r != null) {
+			Date date1 = Calendar.getInstance().getTime();  
+            DateFormat dateFormat1 = new SimpleDateFormat("yyyy-mm-dd");  
+            String fechaLlegada = dateFormat1.format(r.getFechaLlegada());  
+			respuesta.setFechaLlegada(fechaLlegada);
+			
+			Date date2 = Calendar.getInstance().getTime();  
+            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-mm-dd");  
+            String fechaSalida = dateFormat2.format(r.getFechaSalida());  
+			respuesta.setFechaLlegada(fechaSalida);
+			
+			respuesta.setIdCliente(r.getIdCliente());
+			respuesta.setNumAdultos(r.getNumAdultos());
+			respuesta.setNumNinos(r.getNumNinos());
+			respuesta.setNumCamas(r.getNumCamas());
+			respuesta.setTipoHabitacion(r.getTipoHabitacion());
+			respuesta.setPrecio(r.getPrecio());
 		}
 		
 		return respuesta;
