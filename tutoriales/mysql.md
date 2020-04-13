@@ -56,7 +56,7 @@
 
 7. Si **no** tienes alguna instancia de `MySQL/Aurora` entonces da click en `Edit inbound rules`
 
-8. 
+
 
 
 
