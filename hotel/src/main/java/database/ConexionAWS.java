@@ -12,21 +12,14 @@ public class ConexionAWS {
 
 	Connection conexion = null;
 
-	String database =  "hotel";
+	String database =  "hotelbd";
 	String hostname = "54.162.225.248";
 	String port = "3306";
 	String url = "jdbc:mysql://"+hostname+":"+port+"/"+database+"?useTimezone=true&serverTimezone=UTC";
-	String username = "root";
-	String password = "12345";
+	String username = "hotel";
+	String password = "U.qr8-rdTrsp!7HhpkJ7";
 	
 	public Connection connect() {
-		try{
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	    }
-	    catch(ClassNotFoundException ex){
-	        ex.printStackTrace();
-	        System.exit(-1);
-	    }
 		
 		try {
 			this.conexion = DriverManager.getConnection(this.url,this.username,this.password);
