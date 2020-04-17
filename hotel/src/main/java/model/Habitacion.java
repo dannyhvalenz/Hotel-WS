@@ -4,24 +4,24 @@ public class Habitacion {
 	public int numHabitacion;
 	public int piso;
 	public int numCamas;
-	public int cupoPersona;
+	public int cupoPersonas;
 	public String tipoHabitacion; //individual, doble, suite
 	public String status; //ocupada y desocupada
 	
-	public Habitacion(int piso, int numCamas, int cupoPersona, String tipoHabitacion, String status) {
+	public Habitacion(int piso, int numCamas, int cupoPersonas, String tipoHabitacion, String status) {
 		this.piso = piso;
 		this.numCamas = numCamas;
-		this.cupoPersona = cupoPersona;
+		this.cupoPersonas = cupoPersonas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.status = status;
 	}
 	
-	public Habitacion(int numHabitacion, int piso, int numCamas, int cupoPersona, String tipoHabitacion,
+	public Habitacion(int numHabitacion, int piso, int numCamas, int cupoPersonas, String tipoHabitacion,
 			String status) {
 		this.numHabitacion = numHabitacion;
 		this.piso = piso;
 		this.numCamas = numCamas;
-		this.cupoPersona = cupoPersona;
+		this.cupoPersonas = cupoPersonas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.status = status;
 	}
@@ -50,12 +50,12 @@ public class Habitacion {
 		this.numCamas = numCamas;
 	}
 
-	public int getCupoPersona() {
-		return cupoPersona;
+	public int getCupoPersonas() {
+		return cupoPersonas;
 	}
 
-	public void setCupoPersona(int cupoPersona) {
-		this.cupoPersona = cupoPersona;
+	public void setCupoPersonas(int cupoPersonas) {
+		this.cupoPersonas = cupoPersonas;
 	}
 
 	public String getTipoHabitacion() {

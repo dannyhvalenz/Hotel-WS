@@ -1,17 +1,13 @@
 package com.proyecto.hotel;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
@@ -21,33 +17,51 @@ import com.proyectosw.hotel.HacerReservacionResponse;
 
 import com.proyectosw.hotel.EditarReservacionRequest;
 import com.proyectosw.hotel.EditarReservacionResponse;
-import com.proyectosw.hotel.EliminarClienteRequest;
-import com.proyectosw.hotel.EliminarClienteResponse;
+
 import com.proyectosw.hotel.CancelarReservacionRequest;
 import com.proyectosw.hotel.CancelarReservacionResponse;
+
+import com.proyectosw.hotel.ConsultarClienteRequest;
+import com.proyectosw.hotel.ConsultarClienteResponse;
+
+import com.proyectosw.hotel.ConsultarEstanciaRequest;
+import com.proyectosw.hotel.ConsultarEstanciaResponse;
+
+import com.proyectosw.hotel.ConsultarHabitacionRequest;
+import com.proyectosw.hotel.ConsultarHabitacionResponse;
+
 import com.proyectosw.hotel.ConsultarReservacionRequest;
 import com.proyectosw.hotel.ConsultarReservacionResponse;
+
+import model.Reservacion;
 /*-----------------------------CLIENTE----------------------------------*/
 import com.proyectosw.hotel.RegistrarClienteRequest;
 import com.proyectosw.hotel.RegistrarClienteResponse;
 
 import controller.ClienteDAO;
+import controller.EstanciaDAO;
 import controller.HabitacionDAO;
 import controller.ReservacionDAO;
-import model.Reservacion;
 
 import com.proyectosw.hotel.EditarClienteRequest;
 import com.proyectosw.hotel.EditarClienteResponse;
 
+import com.proyectosw.hotel.EliminarClienteRequest;
+import com.proyectosw.hotel.EliminarClienteResponse;
+
+import model.Cliente;
+
 /*-----------------------------ESTANCIA---------------------------------*/
-import com.proyectosw.hotel.AplazarEstanciaRequest;
-import com.proyectosw.hotel.AplazarEstanciaResponse;
+import com.proyectosw.hotel.ModificarEstanciaRequest;
+import com.proyectosw.hotel.ModificarEstanciaResponse;
 
-import com.proyectosw.hotel.RegistrarCheckInRequest;
-import com.proyectosw.hotel.RegistrarCheckInResponse;
+import com.proyectosw.hotel.RealizarCheckInRequest;
+import com.proyectosw.hotel.RealizarCheckInResponse;
 
-import com.proyectosw.hotel.RegistrarCheckOutRequest;
-import com.proyectosw.hotel.RegistrarCheckOutResponse;
+import com.proyectosw.hotel.RealizarCheckOutRequest;
+import com.proyectosw.hotel.RealizarCheckOutResponse;
+
+import model.Estancia;
 
 /*---------------------------HABITACIONES-------------------------------*/
 
@@ -60,12 +74,13 @@ import com.proyectosw.hotel.EditarHabitacionResponse;
 import com.proyectosw.hotel.EliminarHabitacionRequest;
 import com.proyectosw.hotel.EliminarHabitacionResponse;
 
+import model.Habitacion;
+
 
 @Endpoint
 public class EndPoint {
 	
 	/*--RESERVACIONES--------------------------------------------------------------------------------------*/
-	
 	
 	/**
 	 * Metodo para registrar o hacer una reservacion
@@ -121,7 +136,11 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Cancelar Reservacion
+	/**
+	 * Metodo para cancelar (eliminar) una reservacion
+	 * @param peticion
+	 * @return
+	 */
 	@PayloadRoot(localPart = "CancelarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -246,42 +265,154 @@ public class EndPoint {
 		return respuesta;
 	}
 		
+	// Consultar Estancia
+	/**
+	 * Metodo para realizar el check-out (Terminar estancia)
+	 * @param peticion
+	 * @return 
+	 */
+	@PayloadRoot(localPart = "ConsultarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ConsultarClienteResponse getConsultarCliente (@RequestPayload ConsultarClienteRequest peticion) {
+		ConsultarClienteResponse respuesta = new ConsultarClienteResponse();
+		ClienteDAO cliente = new ClienteDAO(peticion.getIdCliente());
+		
+		Cliente c = cliente.consultarCliente(peticion.getIdCliente());
+		
+		
+		if (c != null) {
+			respuesta.setNombre(c.getNombre());
+			respuesta.setApellido(c.getApellido());
+			respuesta.setCorreo(c.getCorreo());
+			respuesta.setTelefono(c.getTelefono());
+			respuesta.setFormaPago(c.getFormaPago());
+		}
+		
+		return respuesta;
+	}
 	
 	/*--ESTANCIA-------------------------------------------------------------------------------------------*/
 	
 	// Registrar Check-In
-	@PayloadRoot(localPart = "RegistrarCheckInRequest", namespace = "http://proyectoSW.com/Hotel")
+	/**
+	 * Metodo para registrar una estancia (Realizar check in)
+	 * @param peticion
+	 * @return mensaje con el numero de habitacion
+	 */
+	@PayloadRoot(localPart = "RealizarCheckInRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
-	public RegistrarCheckInResponse getRegistrarCheckIn (@RequestPayload RegistrarCheckInRequest peticion) {
-		RegistrarCheckInResponse respuesta = new RegistrarCheckInResponse();
-		respuesta.setRespuesta("Se ha registrado el check-in en la habitacion: " + peticion.getNumHabitacion());
+	public RealizarCheckInResponse getRegistrarCheckIn (@RequestPayload RealizarCheckInRequest peticion) {
+		RealizarCheckInResponse respuesta = new RealizarCheckInResponse();
+		EstanciaDAO estancia = new EstanciaDAO(peticion.getNumHabitacion(), peticion.getNumAdultos(), 
+				peticion.getNumNinos(), peticion.getFechaCheckIn(), peticion.getFechaCheckOut(),
+				peticion.getTipoHabitacion(), peticion.getIdCliente());
+		
+		if (estancia.realizarCheckIn()) {
+			respuesta.setRespuesta("Se ha realizado el check-in en la habitacion: " + estancia.getNumHabitacion());
+			respuesta.setPrecio(estancia.obtenerPrecio());
+			respuesta.setStatus(estancia.getStatus());
+		} else {
+			respuesta.setRespuesta("No se ha podido registrar el check-in en la base de datos");
+		}
+		
 		return respuesta;
 	}
 	
-	// Aplazar Estancia
-	@PayloadRoot(localPart = "AplazarEstanciaRequest", namespace = "http://proyectoSW.com/Hotel")
+	/**
+	 * Metodo para modificar la estancia (Aplazar o acortar estancia)
+	 * @param peticion
+	 * @return mensaje con nuevo costo de la estancia
+	 */
+	@PayloadRoot(localPart = "ModificarEstanciaRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
-	public AplazarEstanciaResponse getAplazarEstancia (@RequestPayload AplazarEstanciaRequest peticion) {
-		AplazarEstanciaResponse respuesta = new AplazarEstanciaResponse();
-		respuesta.setRespuesta("Se ha aplazado la salida de la estancia con folio: "+ peticion.getIdEstancia());
+	public ModificarEstanciaResponse getModificarEstancia (@RequestPayload ModificarEstanciaRequest peticion) {
+		ModificarEstanciaResponse respuesta = new ModificarEstanciaResponse();
+		EstanciaDAO estancia = new EstanciaDAO(peticion.getIdEstancia(), peticion.getFechaCheckOut());
+		
+		if (estancia.modificarEstancia()) {
+			respuesta.setRespuesta("Se ha modificado la fecha de salida de la estancia numero: " + peticion.getIdEstancia());
+			respuesta.setPrecio(estancia.obtenerPrecio());
+		} else {
+			respuesta.setRespuesta("No se ha podido modificar la fecha de salida de la estancia numero "+peticion.getIdEstancia()+" en la base de datos");
+		}
+		
 		return respuesta;
 	}
 	
 	// Registrar Check-Out
-	@PayloadRoot(localPart = "RegistrarCheckOutRequest", namespace = "http://proyectoSW.com/Hotel")
+	/**
+	 * Metodo para realizar el check-out (Terminar estancia)
+	 * @param peticion
+	 * @return 
+	 */
+	@PayloadRoot(localPart = "RealizarCheckOutRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
-	public RegistrarCheckOutResponse getRegistrarCheckOut (@RequestPayload RegistrarCheckOutRequest peticion) {
-		RegistrarCheckOutResponse respuesta = new RegistrarCheckOutResponse();
-		respuesta.getPrecio();
+	public RealizarCheckOutResponse getRealizarCheckOut (@RequestPayload RealizarCheckOutRequest peticion) {
+		RealizarCheckOutResponse respuesta = new RealizarCheckOutResponse();
+		EstanciaDAO estancia = new EstanciaDAO(peticion.getIdEstancia(), peticion.getFechaCheckOut());
+		
+		if (estancia.realizarCheckOut()) {
+			respuesta.setRespuesta("Se ha realizado el check-out de la estancia numero: " + peticion.getIdEstancia());
+			respuesta.setPrecio(estancia.obtenerPrecio());
+			respuesta.setStatus(estancia.getStatus());
+		} else {
+			respuesta.setRespuesta("No se ha podido registrar el check-out en la base de datos");
+		}
+		
+		return respuesta;
+	}
+	
+	// Consultar Estancia
+	/**
+	 * Metodo para realizar el check-out (Terminar estancia)
+	 * @param peticion
+	 * @return 
+	 */
+	@PayloadRoot(localPart = "ConsultarEstanciaRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ConsultarEstanciaResponse getConsultarEstancia (@RequestPayload ConsultarEstanciaRequest peticion) {
+		ConsultarEstanciaResponse respuesta = new ConsultarEstanciaResponse();
+		EstanciaDAO estancia = new EstanciaDAO(peticion.getIdEstancia());
+		
+		Estancia e = estancia.consultarEstancia(peticion.getIdEstancia());
+		
+		
+		if (e != null) {
+			
+			Date date1 = Calendar.getInstance().getTime();  
+            DateFormat dateFormat1 = new SimpleDateFormat("yyyy-mm-dd");  
+            String fechaLlegada = dateFormat1.format(e.getFechaCheckIn());  
+			respuesta.setFechaCheckIn(fechaLlegada);
+			
+			Date date2 = Calendar.getInstance().getTime();  
+            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-mm-dd");  
+            String fechaSalida = dateFormat2.format(e.getFechaCheckOut());  
+			respuesta.setFechaCheckOut(fechaSalida);
+			
+			respuesta.setNumHabitacion(e.getNumHabitacion());
+			respuesta.setIdCliente(e.getIdCliente());
+			respuesta.setNumAdultos(e.getNumAdultos());
+			respuesta.setNumNinos(e.getNumNinos());
+			respuesta.setTipoHabitacion(e.getTipoHabitacion());
+			respuesta.setStatus(e.getStatus());
+			respuesta.setPrecio(e.getPrecio());
+		}
+		
 		return respuesta;
 	}
 	
 	/*--HABITACIONES----------------------------------------------------------------------------------------*/
 	
-	// Agregar Habitacion
+	/**
+	 * Metodo para agregar una habitacion
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "AgregarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -297,7 +428,11 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Editar Habitacion
+	/**
+	 * Metodo para editar la informacion de una habitacion
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "EditarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -313,7 +448,11 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Eliminar Habitacion
+	/**
+	 * Metodo para eliminar una habitacion
+	 * @param peticion
+	 * @return respuesta
+	 */
 	@PayloadRoot(localPart = "EliminarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
 	@ResponsePayload
@@ -325,6 +464,32 @@ public class EndPoint {
 		} else {
 			respuesta.setRespuesta("No se ha podido eliminar la habitacion al sistema");
 		}
+		return respuesta;
+	}
+	
+	// Consultar Estancia
+	/**
+	 * Metodo para realizar consultar una habitacion
+	 * @param peticion
+	 * @return 
+	 */
+	@PayloadRoot(localPart = "ConsultarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ConsultarHabitacionResponse getConsultarCliente (@RequestPayload ConsultarHabitacionRequest peticion) {
+		ConsultarHabitacionResponse respuesta = new ConsultarHabitacionResponse();
+		HabitacionDAO habitacion = new HabitacionDAO(peticion.getNumHabitacion());
+		
+		Habitacion h = habitacion.consultarHabitacion(peticion.getNumHabitacion());
+		
+		if (h != null) {
+			respuesta.setCupoPersonas(h.getCupoPersonas());
+			respuesta.setNumCamas(h.getNumCamas());
+			respuesta.setPiso(h.getPiso());
+			respuesta.setStatus(h.getStatus());
+			respuesta.setTipoHabitacion(h.getTipoHabitacion());
+		}
+		
 		return respuesta;
 	}
 			

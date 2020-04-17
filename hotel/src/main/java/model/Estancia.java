@@ -11,6 +11,8 @@ public class Estancia {
 	private Date fechaCheckIn;
 	private Date fechaCheckOut;
 	private int idCliente;
+	private String status;
+	private String tipoHabitacion;
 	
 	/**
 	 * @param idEstancia
@@ -23,8 +25,21 @@ public class Estancia {
 	 * @param idCliente
 	 */
 	public Estancia(int idEstancia, int numHabitacion, int numAdultos, int numNinos, double precio, Date fechaCheckIn,
-			Date fechaCheckOut, int idCliente) {
+			Date fechaCheckOut, String status, String tipoHabitacion, int idCliente) {
 		this.idEstancia = idEstancia;
+		this.numHabitacion = numHabitacion;
+		this.numAdultos = numAdultos;
+		this.numNinos = numNinos;
+		this.precio = precio;
+		this.fechaCheckIn = fechaCheckIn;
+		this.fechaCheckOut = fechaCheckOut;
+		this.status = status;
+		this.tipoHabitacion = tipoHabitacion;
+		this.idCliente = idCliente;
+	}
+	
+	public Estancia(int numHabitacion, int numAdultos, int numNinos, double precio, Date fechaCheckIn,
+			Date fechaCheckOut, String status, String tipoHabitacion, int idCliente) {
 		this.numHabitacion = numHabitacion;
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
@@ -41,6 +56,34 @@ public class Estancia {
 	public Estancia(int idEstancia, Date fechaCheckOut) {
 		this.idEstancia = idEstancia;
 		this.fechaCheckOut = fechaCheckOut;
+	}
+	
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the tipoHabitacion
+	 */
+	public String getTipoHabitacion() {
+		return tipoHabitacion;
+	}
+
+	/**
+	 * @param tipoHabitacion the tipoHabitacion to set
+	 */
+	public void setTipoHabitacion(String tipoHabitacion) {
+		this.tipoHabitacion = tipoHabitacion;
 	}
 
 	/**

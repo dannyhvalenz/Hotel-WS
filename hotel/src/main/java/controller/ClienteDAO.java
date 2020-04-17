@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.ConexionAWS;
+import model.Cliente;
+import model.Estancia;
 
 public class ClienteDAO {
 	private int idCliente;
@@ -166,5 +168,20 @@ public class ClienteDAO {
 				e.printStackTrace();
 			}
 		return existe;
+	}
+	
+	public Cliente consultarCliente(int id) {
+		Cliente cliente = null;
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM clientes WHERE idCliente="+id);
+			while(rs.next()) {
+				cliente = new Cliente(rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono")
+						, rs.getString("correo"), rs.getString("formaPago"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cliente;
 	}
 }

@@ -1,8 +1,10 @@
 package controller;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.ConexionAWS;
+import model.Habitacion;
 
 public class HabitacionDAO {
 	private int numHabitacion;
@@ -106,6 +108,22 @@ public class HabitacionDAO {
 			e.printStackTrace();
 		}
 		return resultado;
+	}
+	
+	public Habitacion consultarHabitacion(int id) {
+		Habitacion habitacion = null;
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM habitaciones WHERE numHabitacion="+id);
+			while(rs.next()) {
+				habitacion = new Habitacion(rs.getInt("numHabitacion"), rs.getInt("piso"), 
+						rs.getInt("numCamas"), rs.getInt("cupoPersonas"), rs.getString("tipoHabitacion"),
+						rs.getString("status"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return habitacion;
 	}
 	
 }

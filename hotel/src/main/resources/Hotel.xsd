@@ -94,59 +94,87 @@
 	</element>
 
 	<!--Estancia-->	
-	<element name="RegistrarCheckInRequest">
+	<element name="RealizarCheckInRequest">
 		<complexType>
 			<sequence>
 				<element name="numHabitacion" type="int"></element>
 				<element name="numAdultos" type="int"></element>
 				<element name="numNinos" type="int"></element>
-				<element name="fechaCheckIn" type="date"></element>
-				<element name="fechaCheckOut" type="date"></element>
+				<element name="tipoHabitacion" type="string"></element>
+				<element name="fechaCheckIn" type="string"></element>
+				<element name="fechaCheckOut" type="string"></element>
 				<element name="idCliente" type="int"></element>
 			</sequence>
 		</complexType>
 	</element>
 	
-	<element name="RegistrarCheckInResponse">
-		<complexType>
-			<sequence>
-				<element name="respuesta" type="string">
-					
-				</element>
-			</sequence>
-		</complexType>
-	</element>
-
-	<element name="AplazarEstanciaRequest">
-		<complexType>
-			<sequence>
-				<element name="idEstancia" type="int"></element>
-				<element name="fechaCheckOut" type="date"></element>
-			</sequence>
-		</complexType>
-	</element>
-	
-	<element name="AplazarEstanciaResponse">
+	<element name="RealizarCheckInResponse">
 		<complexType>
 			<sequence>
 				<element name="respuesta" type="string"></element>
+				<element name="status" type="string"></element>
+				<element name="precio" type="double"></element>
 			</sequence>
 		</complexType>
 	</element>
 
-	<element name="RegistrarCheckOutRequest">
+	<element name="ModificarEstanciaRequest">
 		<complexType>
 			<sequence>
 				<element name="idEstancia" type="int"></element>
-				<element name="fechaCheckOut" type="date"></element>
+				<element name="fechaCheckOut" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>
 	
-	<element name="RegistrarCheckOutResponse">
+	<element name="ModificarEstanciaResponse">
 		<complexType>
 			<sequence>
-				<element name="precio" type="int"></element>
+				<element name="respuesta" type="string"></element>
+				<element name="precio" type="double"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="RealizarCheckOutRequest">
+		<complexType>
+			<sequence>
+				<element name="idEstancia" type="int"></element>
+				<element name="fechaCheckOut" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="RealizarCheckOutResponse">
+		<complexType>
+			<sequence>
+				<element name="respuesta" type="string"></element>
+				<element name="status" type="string"></element>
+				<element name="precio" type="double"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarEstanciaRequest">
+		<complexType>
+			<sequence>
+				<element name="idEstancia" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarEstanciaResponse">
+		<complexType>
+			<sequence>
+				<element name="numHabitacion" type="int"></element>
+				<element name="numAdultos" type="int"></element>
+				<element name="numNinos" type="int"></element>
+				<element name="tipoHabitacion" type="string"></element>
+				<element name="fechaCheckIn" type="string"></element>
+				<element name="fechaCheckOut" type="string"></element>
+				<element name="status" type="string"></element>
+				<element name="precio" type="double"></element>
+				<element name="idCliente" type="int"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -211,6 +239,26 @@
 			</sequence>
 		</complexType>
 	</element>
+	
+	<element name="ConsultarClienteRequest">
+		<complexType>
+			<sequence>
+				<element name="idCliente" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarClienteResponse">
+		<complexType>
+			<sequence>
+				<element name="nombre" type="string"></element>
+				<element name="apellido" type="string"></element>
+				<element name="telefono" type="string"></element>
+				<element name="correo" type="string"></element>
+				<element name="formaPago" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
 
 	<!--Habitacion-->
 	<element name="AgregarHabitacionRequest">
@@ -270,6 +318,26 @@
 			<sequence>
 				<element name="respuesta" type="string">
 				</element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarHabitacionRequest">
+		<complexType>
+			<sequence>
+				<element name="numHabitacion" type="int"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarHabitacionResponse">
+		<complexType>
+			<sequence>
+				<element name="piso" type="int"></element>
+				<element name="numCamas" type="int"></element>
+				<element name="cupoPersonas" type="int"></element>
+				<element name="tipoHabitacion" type="string"></element>
+				<element name="status" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>
