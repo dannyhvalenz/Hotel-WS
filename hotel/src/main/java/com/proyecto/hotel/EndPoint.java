@@ -80,12 +80,12 @@ import model.Habitacion;
 @Endpoint
 public class EndPoint {
 	
-	/*--RESERVACIONES--------------------------------------------------------------------------------------*/
+/*--RESERVACIONES--------------------------------------------------------------------------------------*/
 	
 	/**
 	 * Metodo para registrar o hacer una reservacion
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje y precio
 	 */
 	@PayloadRoot(localPart = "HacerReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -93,13 +93,10 @@ public class EndPoint {
 	public HacerReservacionResponse getHacerReservacion (@RequestPayload HacerReservacionRequest peticion) {
 		HacerReservacionResponse respuesta = new HacerReservacionResponse();
 		
-		// Sacar num de dias para obtener precio por dias
-		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getFechaLlegada(), peticion.getFechaSalida(), 
 				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
-		System.out.println("precio = " + precio);
 		if (reservacion.registrarReservacion()) {
 			respuesta.setRespuesta("Se ha registrado la reservacion en el sistema");
 			respuesta.setPrecio(precio);
@@ -113,7 +110,7 @@ public class EndPoint {
 	/**
 	 * Metodo para editar una reservacion
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje y precio
 	 */
 	@PayloadRoot(localPart = "EditarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -125,7 +122,6 @@ public class EndPoint {
 				peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
-		System.out.println("precio = " + precio);
 		if (reservacion.actualizarReservacion()) {
 			respuesta.setRespuesta("Se ha actualizado la reservacion numero '"+reservacion.getIdReservacion()+"' en el sistema");
 			respuesta.setPrecio(precio);
@@ -139,7 +135,7 @@ public class EndPoint {
 	/**
 	 * Metodo para cancelar (eliminar) una reservacion
 	 * @param peticion
-	 * @return
+	 * @return mensaje
 	 */
 	@PayloadRoot(localPart = "CancelarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -161,7 +157,7 @@ public class EndPoint {
 	/**
 	 * Metodo para consultar la informacion de una reservacion
 	 * @param peticion
-	 * @return
+	 * @return fechaLlegada, fechaSalida, idCliente, numAdultos, numNinos, numCamas, tipoHabitacion, precio
 	 */
 	@PayloadRoot(localPart = "ConsultarReservacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -197,11 +193,10 @@ public class EndPoint {
 	
 	/*--CLIENTES-------------------------------------------------------------------------------------------*/
 	
-	
 	/**
-	 * Metodo para registrar cliente en el sistema
+	 * Metodo para registrar un cliente en el sistema
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje, nombre y apellido
 	 */
 	@PayloadRoot(localPart = "RegistrarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -222,9 +217,9 @@ public class EndPoint {
 	}
 	
 	/**
-	 * Metodo para actualizar al cliente de la base de datos
+	 * Metodo para actualizar un cliente de la base de datos
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje, nombre y apellido
 	 */
 	@PayloadRoot(localPart = "EditarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -248,9 +243,9 @@ public class EndPoint {
 	
 	
 	/**
-	 * Metodo para eliminar al cliente de la base de datos
+	 * Metodo para eliminar a un cliente de la base de datos
 	 * @param peticion
-	 * @return respuesta "mensaje"
+	 * @return mensaje
 	 */
 	@PayloadRoot(localPart = "EliminarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	@ResponsePayload
@@ -265,11 +260,10 @@ public class EndPoint {
 		return respuesta;
 	}
 		
-	// Consultar Estancia
 	/**
-	 * Metodo para realizar el check-out (Terminar estancia)
+	 * Metodo para consultar la informacion de un cliente
 	 * @param peticion
-	 * @return 
+	 * @return nombre, apellido, telefono, correo, formaPago
 	 */
 	@PayloadRoot(localPart = "ConsultarClienteRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -294,7 +288,6 @@ public class EndPoint {
 	
 	/*--ESTANCIA-------------------------------------------------------------------------------------------*/
 	
-	// Registrar Check-In
 	/**
 	 * Metodo para registrar una estancia (Realizar check in)
 	 * @param peticion
@@ -323,7 +316,7 @@ public class EndPoint {
 	/**
 	 * Metodo para modificar la estancia (Aplazar o acortar estancia)
 	 * @param peticion
-	 * @return mensaje con nuevo costo de la estancia
+	 * @return mensaje con el id de la estancia y precio actualizado
 	 */
 	@PayloadRoot(localPart = "ModificarEstanciaRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -342,11 +335,10 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Registrar Check-Out
 	/**
 	 * Metodo para realizar el check-out (Terminar estancia)
 	 * @param peticion
-	 * @return 
+	 * @return mensaje, precio y status
 	 */
 	@PayloadRoot(localPart = "RealizarCheckOutRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -366,11 +358,11 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Consultar Estancia
 	/**
-	 * Metodo para realizar el check-out (Terminar estancia)
+	 * Metodo para consultar una estancia
 	 * @param peticion
-	 * @return 
+	 * @return fechaCheckIn, fechaCheckOut, numHabitacion, idCliente, numAdultos, numNinos, 
+	 * 				tipoHabitacion, status y precio
 	 */
 	@PayloadRoot(localPart = "ConsultarEstanciaRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -411,7 +403,7 @@ public class EndPoint {
 	/**
 	 * Metodo para agregar una habitacion
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje con numHabitacion
 	 */
 	@PayloadRoot(localPart = "AgregarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -431,7 +423,7 @@ public class EndPoint {
 	/**
 	 * Metodo para editar la informacion de una habitacion
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje con numHabitacion
 	 */
 	@PayloadRoot(localPart = "EditarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -451,7 +443,7 @@ public class EndPoint {
 	/**
 	 * Metodo para eliminar una habitacion
 	 * @param peticion
-	 * @return respuesta
+	 * @return mensaje con numHabitacion
 	 */
 	@PayloadRoot(localPart = "EliminarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
@@ -467,11 +459,10 @@ public class EndPoint {
 		return respuesta;
 	}
 	
-	// Consultar Estancia
 	/**
-	 * Metodo para realizar consultar una habitacion
+	 * Metodo para consultar una habitacion
 	 * @param peticion
-	 * @return 
+	 * @return cupoPersonas, numCamas, getPiso, status, tipoHabitacion
 	 */
 	@PayloadRoot(localPart = "ConsultarHabitacionRequest", namespace = "http://proyectoSW.com/Hotel")
 	
