@@ -29,10 +29,32 @@
 6. Ingresa a MySQL
 
    ```
-   mysql -u USERNAME -p
+   mysql -u root -p
    ```
 
    Una vez ejecutado te pedira tu contraña e ingresaras la contraseña generada en el **paso 5**
+   
+7. Ejecutar mysql secure installation
+
+   ```shell
+   sudo mysql_secure_installation
+   ```
+
+8. Abrir mysql
+
+   ```
+   mysql -u root -p
+   ```
+
+   con la nueva contraseña generada en mysql_secure_installation
+
+9. Crear un nuevo usuario con permisos para la bd especifica
+
+   ```shell
+   CREATE USER 'nuevo_usuario'@'%' IDENTIFIED BY 'nueva_contrasena';
+   ```
+
+   
 
 ## 2. Mantener Corriendo MySQL
 
