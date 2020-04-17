@@ -1,55 +1,133 @@
-# Hotel
+# DHotel
 ## Descripción
 Sistema web de un hotel
 
 [Link del Servidor](http://54.162.225.248:8080/hotel.wsdl)
 
 ## Funcionalidades
+
 - [x] Hacer reservacion
+  Ejemplo
+
+  ```xml
+  <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+      <Body>
+          <HacerReservacionRequest xmlns="http://proyectoSW.com/Hotel">
+              <fechaLlegada>2020-04-20</fechaLlegada>
+              <fechaSalida>2020-04-30</fechaSalida>
+              <numAdultos>1</numAdultos>
+              <numNinos>0</numNinos>
+              <numCamas>1</numCamas>
+              <tipoHabitacion>Individual</tipoHabitacion>
+              <idCliente>53</idCliente>
+          </HacerReservacionRequest>
+      </Body>
+  </Envelope>
+  ```
+
 - [x] Editar reservacion
+
 - [x] Cancelar reservacion
+
 - [x] Consultar reservación
+
 - [x] Realizar check-in
+
+  ```xml
+  <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+      <Body>
+          <RealizarCheckInRequest xmlns="http://proyectoSW.com/Hotel">
+              <numHabitacion>1</numHabitacion>
+              <numAdultos>1</numAdultos>
+              <numNinos>0</numNinos>
+              <tipoHabitacion>Individual</tipoHabitacion>
+              <fechaCheckIn>2020-04-04</fechaCheckIn>
+              <fechaCheckOut>2020-04-14</fechaCheckOut>
+              <idCliente>23</idCliente>
+          </RealizarCheckInRequest>
+      </Body>
+  </Envelope>
+  ```
+
 - [x] Modificar estancia (Aplazar o acortar estancia)
+
 - [x] Realizar check-out
+
 - [x] Consultar estancia
+
 - [x] Registrar cliente
+
+  ```xml
+  <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+      <Body>
+          <RegistrarClienteRequest xmlns="http://proyectoSW.com/Hotel">
+              <nombre>Federico</nombre>
+              <apellido>Toss</apellido>
+              <telefono>2282212265</telefono>
+              <correo>federicotoss@live.com.mx</correo>
+              <formaPago>Debito</formaPago>
+          </RegistrarClienteRequest>
+      </Body>
+  </Envelope>
+  ```
+
 - [x] Actualizar cliente
+
 - [x] Eliminar cliente `¿En un hotel se eliminan a los clientes o solo se modifican?`
+
 - [x] Consultar cliente
+
 - [x] Agregar habitacion
+
+  ```xml
+  <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+      <Body>
+          <AgregarHabitacionRequest xmlns="http://proyectoSW.com/Hotel">
+              <numHabitacion>11</numHabitacion>
+              <piso>1</piso>
+              <numCamas>2</numCamas>
+              <cupoPersonas>4</cupoPersonas>
+              <tipoHabitacion>Doble</tipoHabitacion>
+              <status>Disponible</status>
+          </AgregarHabitacionRequest>
+      </Body>
+  </Envelope>
+  ```
+
 - [x] Modificar habitacion
+
 - [x] Eliminar habitacion
+
 - [X] Consultar habitación
 
-## Diagrama de clases
+## Clases
 
-### Reservacion
+### Reservación
 
-| Atributo       | Tipo   |Formato|
+| Atributo       | Tipo   |Descripción|
 | -------------- | ------ |-------|
-| idReservacion  | Int    |
-| fechaLlegada   | Date   |`2019-11-05`|
-| fechaSalida    | Date   |`2019-11-05`|
-| numAdultos     | Int    |
-| numNinos       | Int    |
-| precio         | Double |
-| numCamas       | Int    |
-| tipoHabitacion | String |
-| idCliente      | Int    |
+| idReservacion  | Int    ||
+| fechaLlegada   | Date   |Formato`yyyy-mm-dd`|
+| fechaSalida    | Date   |Formato`yyyy-mm-dd`|
+| numAdultos     | Int    ||
+| numNinos       | Int    ||
+| precio         | Double |Calculado a partir de fechaSalida - fechaLlegada|
+| numCamas       | Int    ||
+| tipoHabitacion | String ||
+| idCliente      | Int    ||
 
 ### Estancia
 
-| Atributo      | Tipo   | Formato|
+| Parámetro | Tipo   | Formato|
 | ------------- | ------ | -------|
-| idEstancia    | Int    |
-| numHabitacion | Int    |
-| numAdultos    | Int    |
-| numNinos      | Int    |
-| precio        | Double |
-| fechaCheckIn  | Date   |`2019-11-05`|
-| fechaCheckOut | Date   |`2019-11-05`|
-| idCliente     | Int    |
+| idEstancia    | Int    ||
+| numHabitacion | Int    ||
+| numAdultos    | Int    ||
+| numNinos      | Int    ||
+| precio        | Double |Calculado a partir de fechaSalida - fechaLlegada|
+| fechaCheckIn  | Date   |Formato`yyyy-mm-dd`|
+| fechaCheckOut | Date   |Formato`yyyy-mm-dd`|
+| idCliente     | Int    ||
 
 ### Habitacion
 
@@ -74,8 +152,6 @@ Sistema web de un hotel
 | formaPago | String |
 
 ## Mensajes
-- Hacer reservacion 
-
 Se ingresan los datos de la reservacion y si la reservacion se realiza con exito entonces el sistema mostrara el mensaje "Se ha registrado la reservacion en el sistema"
 
 - Editar reservacion
