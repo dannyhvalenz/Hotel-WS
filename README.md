@@ -1,4 +1,4 @@
-# DHotel
+# Hotel
 ## Descripción
 Sistema web de un hotel
 
