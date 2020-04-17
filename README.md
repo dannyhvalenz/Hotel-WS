@@ -101,6 +101,8 @@ Sistema web de un hotel
 
 ## Clases
 
+![Diagrama de clases](https://github.com/dannyhvalenz/Hotel-WS/blob/master/docs/Diagrama-de-clases.png)
+
 ### Reservación
 
 | Atributo       | Tipo   |Descripción|
