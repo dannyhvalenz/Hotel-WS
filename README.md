@@ -7,7 +7,6 @@ Sistema web de un hotel
 ## Funcionalidades
 
 - [x] Hacer reservacion
-  Ejemplo
 
   ```xml
   <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
@@ -127,7 +126,9 @@ Sistema web de un hotel
 | precio        | Double |Calculado a partir de fechaSalida - fechaLlegada|
 | fechaCheckIn  | Date   |Formato`yyyy-mm-dd`|
 | fechaCheckOut | Date   |Formato`yyyy-mm-dd`|
-| idCliente     | Int    ||
+| Status | String |`Check-In` o `Check-Out`|
+| idCliente | Int ||
+| tipoHabitacion | String ||
 
 ### Habitacion
 
@@ -201,6 +202,25 @@ se muestra mensaje " se han actualizado los datos de la habitacion x"
 - Eliminar habitación
 
 se muestra mensaje "se ha eliminado la habitación número x"
+
+| Funcion                                | Parámetros                                                   | Respuestas                                                   |
+| -------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Hacer reservación                      | `fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, idCliente` | Mensaje ("Se ha registrado la reservacion en el sistema") y `precio` |
+| Editar reservación                     | `idReservacion, fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, idCliente` | Mensaje("Se ha actualizado la reservacion numero `idReservacion` en el sistema") y `precio` |
+| Cancelar reservación                   | `idReservacion`                                              | Mensaje("Se ha eliminado la reservacion del sistema")        |
+| Consultar reservación                  | `idReservacion`                                              | `fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, precio, idCliente` |
+| Realizar Check-In                      | `numHabitacion, numAdultos, numNinos, tipoHabitacion, fechaCheckIn, fechaCheckOut, idCliente` | Mensaje("Se ha realizado el check-in en la habitacion `numHabitacion`"), `status` y `precio` |
+| Modificar estancia (aplazar o acortar) | `idEstancia, fechaCheckOut`                                  | Mensaje("Se ha modificado la fecha de salida de la estancia numero `idEstancia`"), `status` y `precio` |
+| Realizar Check-Out                     | `idEstancia, fechaCheckOut`                                  | Mensaje("Se ha realizado el check-out de la estancia numero `idEstancia`"), `status` y `precio` |
+| Consultar Estancia                     | `idEstancia`                                                 | `numHabitacion, numAdultos, numNinos, tipoHabitacion, fechaCheckIn, fechaCheckOut, idCliente, status, precio` |
+| Registrar cliente                      | `nombre, apellido, telefono, correo, formaPago`              | Mensaje("Se ha registrado al cliente `nombre apellido` en el sistema") |
+| Actualizar cliente                     | `idCliente, nombre, apellido, telefono, correo, formaPago`   | Mensaje("Se ha actualizado al cliente `nombre apellido` en el sistema") |
+| Eliminar cliente                       | `idCliente`                                                  | Mensaje("Se ha eliminado al cliente del sistema")            |
+| Consultar cliente                      | `idCliente`                                                  | `nombre, apellido, telefono, correo, formaPago`              |
+| Agregar habitacion                     | `numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion, status ` | Mensaje("Se ha agregado la habitacion `numHabitacion` al sistema") |
+| Modificar habitacion                   | `numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion, status ` | Mensaje("Se ha agregado la habitacion `numHabitacion` al sistema") |
+| Eliminar habitacion                    | `numHabitacion`                                              | Mensaje("Se ha eliminado la habitacion `numHabitacion` al sistema") |
+| Consultar habitación                   | `numHabitacion`                                              | `piso, numCamas, cupoPersonas, tipoHabitacion, status `      |
 
 ## Dependencias
 
