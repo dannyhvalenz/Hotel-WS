@@ -50,7 +50,7 @@ public class HabitacionDAO {
 	
 	/**
 	 * Metodo para agregar habitacion
-	 * @return
+	 * @return true si fue exitoso y false si fue fallido
 	 */
 	public boolean agregarHabitacion() {
 		boolean resultado = false;
@@ -110,6 +110,11 @@ public class HabitacionDAO {
 		return resultado;
 	}
 	
+	/**
+	 * Metodo para consultar la informacion de una habitacion
+	 * @param id
+	 * @return habitacion
+	 */
 	public Habitacion consultarHabitacion(int id) {
 		Habitacion habitacion = null;
 		this.database = new ConexionAWS();

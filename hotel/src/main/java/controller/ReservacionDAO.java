@@ -127,6 +127,7 @@ public class ReservacionDAO {
 	
 	
 	/**
+	 * Metodo para eliminar una reservacion
 	 * @return true si se elimina la reservacion de forma exitosa
 	 */
 	public boolean eliminarReservacion() {

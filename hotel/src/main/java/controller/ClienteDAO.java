@@ -114,6 +114,7 @@ public class ClienteDAO {
 	}
 
 	/**
+	 * Metodo para obtener el nombre del cliente
 	 * @return the nombre
 	 */
 	public String getNombre() {
@@ -133,6 +134,7 @@ public class ClienteDAO {
 	
 
 	/**
+	 * Metodo para obtener el apellido del cliente
 	 * @return the apellido
 	 */
 	public String getApellido() {
@@ -149,6 +151,10 @@ public class ClienteDAO {
 		return apellido;
 	}
 	
+	/**
+	 * Metodo para verificar que el id del cliente existe
+	 * @return true si existe y false si no existe
+	 */
 	public boolean verificarIdCliente() {
 		boolean existe = false;
 		this.database = new ConexionAWS();
@@ -170,6 +176,12 @@ public class ClienteDAO {
 		return existe;
 	}
 	
+	
+	/**
+	 * Metodo para consultar la informacion de un cliente
+	 * @param id
+	 * @return cliente
+	 */
 	public Cliente consultarCliente(int id) {
 		Cliente cliente = null;
 		this.database = new ConexionAWS();

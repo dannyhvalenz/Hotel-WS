@@ -38,6 +38,18 @@ public class Estancia {
 		this.idCliente = idCliente;
 	}
 	
+	/**
+	 * 
+	 * @param numHabitacion
+	 * @param numAdultos
+	 * @param numNinos
+	 * @param precio
+	 * @param fechaCheckIn
+	 * @param fechaCheckOut
+	 * @param status
+	 * @param tipoHabitacion
+	 * @param idCliente
+	 */
 	public Estancia(int numHabitacion, int numAdultos, int numNinos, double precio, Date fechaCheckIn,
 			Date fechaCheckOut, String status, String tipoHabitacion, int idCliente) {
 		this.numHabitacion = numHabitacion;
@@ -49,10 +61,19 @@ public class Estancia {
 		this.idCliente = idCliente;
 	}
 	
+	/**
+	 * 
+	 * @param idEstancia
+	 */
 	public Estancia(int idEstancia) {
 		this.idEstancia = idEstancia;
 	}
 	
+	/**
+	 * 
+	 * @param idEstancia
+	 * @param fechaCheckOut
+	 */
 	public Estancia(int idEstancia, Date fechaCheckOut) {
 		this.idEstancia = idEstancia;
 		this.fechaCheckOut = fechaCheckOut;

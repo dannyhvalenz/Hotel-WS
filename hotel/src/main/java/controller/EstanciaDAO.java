@@ -119,7 +119,7 @@ public class EstanciaDAO {
 
 	/**
 	 * Metodo para agregar una estancia
-	 * @return
+	 * @return true si fue exitosa y false si fue fallida
 	 */
 	public boolean realizarCheckIn() {
 		boolean resultado = false;
@@ -137,6 +137,10 @@ public class EstanciaDAO {
 		return resultado;
 	}
 	
+	/**
+	 * Metodo para obtener la fecha del check in y el tipo de habitacion
+	 * @param id
+	 */
 	public void getDatosEstancia(int id) {
 		this.database = new ConexionAWS();
 		try {
@@ -175,6 +179,7 @@ public class EstanciaDAO {
 	
 	
 	/**
+	 * Metodo para realizar el check out
 	 * @return true si se elimina la estancia de forma exitosa
 	 */
 	public boolean realizarCheckOut() {
@@ -229,6 +234,11 @@ public class EstanciaDAO {
 		return this.precio;
 	}
 	
+	/**
+	 * Metodos para consultar una estancia 
+	 * @param id
+	 * @return estancia
+	 */
 	public Estancia consultarEstancia(int id) {
 		Estancia estancia = null;
 		this.database = new ConexionAWS();
