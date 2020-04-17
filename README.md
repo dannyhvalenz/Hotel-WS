@@ -20,7 +20,7 @@ Sistema web de un hotel
 - [x] Agregar habitacion
 - [x] Modificar habitacion
 - [x] Eliminar habitacion
-- [ ] Consultar habitación
+- [X] Consultar habitación
 
 ## Diagrama de clases
 
