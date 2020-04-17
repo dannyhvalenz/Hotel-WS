@@ -10,7 +10,7 @@ Sistema web de un hotel
 - [x] Cancelar reservacion
 - [x] Consultar reservación
 - [x] Realizar check-in
-- [ ] Modificar estancia (Aplazar o acortar estancia)
+- [x] Modificar estancia (Aplazar o acortar estancia)
 - [x] Realizar check-out
 - [x] Consultar estancia
 - [x] Registrar cliente
