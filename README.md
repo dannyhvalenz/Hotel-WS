@@ -4,7 +4,9 @@ Sistema web de un hotel
 
 [Link del Servidor](http://54.162.225.248:8080/hotel.wsdl)
 
-## Funcionalidades
+## Casos de uso
+
+![Diagrama de casos de uso](https://github.com/dannyhvalenz/Hotel-WS/blob/master/docs/Diagrama-de-casos-de-uso.png)
 
 - [x] Hacer reservacion
 
