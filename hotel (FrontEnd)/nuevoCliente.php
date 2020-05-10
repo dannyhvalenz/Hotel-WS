@@ -75,6 +75,34 @@
             </nav>
         </div>
         <div id="layoutSidenav_content">
+            <mensaje>
+                <!--MODAL MENSAJES DE ERROR-->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Error al registrar</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <?php $reasons = array("error" => "No se pudo registrar al cliente en el sistema", 
+                                        "duplicado" => "Ya existe un cliente con ese correo y telefono"); 
+							if ($_GET["errorcliente"]) 	
+								echo "<span'>". $reasons[$_GET["reason"]] . "</span>"; 
+						        ?>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mensaje>
             <main>
                 <div class="container-fluid">
                     <h1 class="mt-4">Clientes</h1>
@@ -90,7 +118,7 @@
                                 <div class="form-group">
                                     <label class="small mb-1" for="nombre">Nombre</label>
                                     <input class="form-control py-4" id="nombre" name="nombre" type="text"
-                                        placeholder="Ingresa el nombre" required value="<?php echo $response->{'nombre'}?>"/>
+                                        placeholder="Ingresa el nombre" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -156,7 +184,14 @@
     <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-
+    <script>
+        var url = window.location.href;
+		if(url.indexOf('?errorcliente=true&reason=error') != -1 || url.indexOf('?errorcliente=true&reason=duplicado') != -1) {
+            $('#myModal').modal('show');
+		} else {
+			$('#myModal').modal('hide');
+        }
+    </script>
 </body>
 
 </html>
