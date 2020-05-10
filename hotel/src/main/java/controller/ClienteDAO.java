@@ -64,15 +64,25 @@ public class ClienteDAO {
 	 * Metodo para registrar un cliente en la Base de Datos
 	 * @return true si se registro el cliente de forma exitosa en la BD
 	 */
-	public boolean registrarCliente() {
-		boolean resultado = false;
+	public String registrarCliente() {
+		String resultado = "Error";
 		this.database = new ConexionAWS();
 		try {
-			this.database.connect().createStatement().execute(
-					"INSERT INTO clientes (nombre,apellido,telefono,correo,formaPago) VALUES "
-					+ "('"+this.nombre+"','"+this.apellido+"','"+this.telefono+"','"+this.correo
-					+"','"+this.formaPago+"')");
-			resultado = true;
+			String queryDuplicado = "SELECT * FROM clientes WHERE correo='"+this.correo+"' AND telefono='"+this.telefono+"'";
+			ResultSet rs = this.database.connect().createStatement().executeQuery(queryDuplicado);
+			System.out.println("Revistar registro");
+			System.out.println(rs);
+			if (rs.next()) {
+				resultado = "Duplicado";
+			} else {
+				this.database.connect().createStatement().execute(
+						"INSERT INTO clientes (nombre,apellido,telefono,correo,formaPago) VALUES "
+						+ "('"+this.nombre+"','"+this.apellido+"','"+this.telefono+"','"+this.correo
+						+"','"+this.formaPago+"')");
+				resultado = "Exito";
+			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

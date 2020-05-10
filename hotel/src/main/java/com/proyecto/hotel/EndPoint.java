@@ -209,10 +209,12 @@ public class EndPoint {
 		ClienteDAO cliente = new ClienteDAO(peticion.getNombre(), peticion.getApellido(), 
 				peticion.getTelefono(), peticion.getCorreo(), peticion.getFormaPago());
 		
-		if (cliente.registrarCliente()) {
+		if (cliente.registrarCliente() == "Exito") {
 			respuesta.setRespuesta("Se ha registrado al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en el sistema");
-		} else {
+		} else if (cliente.registrarCliente() == "Error") {
 			respuesta.setRespuesta("No se ha podido registrar al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en la base de datos");
+		} else if (cliente.registrarCliente() == "Duplicado") {
+			respuesta.setRespuesta("Ya existe un cliente con correo="+peticion.getCorreo()+" y telefono="+peticion.getTelefono());
 		}
 		
 		return respuesta;
