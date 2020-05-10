@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ObtenerListaClientesResponse {
 
     @XmlElement(required = true)
-    protected List<ObtenerListaClientesResponse.Cliente> cliente;
+    protected List<model.Cliente> cliente;
 
     /**
      * Gets the value of the cliente property.
@@ -82,9 +82,9 @@ public class ObtenerListaClientesResponse {
      * 
      * 
      */
-    public List<ObtenerListaClientesResponse.Cliente> getCliente() {
+    public List<model.Cliente> getCliente() {
         if (cliente == null) {
-            cliente = new ArrayList<ObtenerListaClientesResponse.Cliente>();
+            cliente = new ArrayList<model.Cliente>();
         }
         return this.cliente;
     }

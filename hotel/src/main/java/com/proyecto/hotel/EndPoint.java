@@ -55,8 +55,6 @@ import model.Cliente;
 /*-----------------------------ESTANCIA---------------------------------*/
 import com.proyectosw.hotel.ModificarEstanciaRequest;
 import com.proyectosw.hotel.ModificarEstanciaResponse;
-import com.proyectosw.hotel.ObtenerClientesRequest;
-import com.proyectosw.hotel.ObtenerClientesResponse;
 import com.proyectosw.hotel.ObtenerListaClientesRequest;
 import com.proyectosw.hotel.ObtenerListaClientesResponse;
 import com.proyectosw.hotel.RealizarCheckInRequest;
@@ -310,7 +308,7 @@ public class EndPoint {
 			ArrayList<String> formaPago = new ArrayList<String>();
 			
 			for (Cliente cliente : clientes) {
-				respuesta.getCliente().add(cliente);			
+				respuesta.getCliente().add(cliente);		
 			}
 			
 			/*
