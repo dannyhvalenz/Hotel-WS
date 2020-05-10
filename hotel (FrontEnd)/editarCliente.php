@@ -2,7 +2,7 @@
     // Instancua de la clase Soap Client
     $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
     // definicion y paso de parametros
-    $parametros = array("idCliente" => 101);
+    $parametros = array("idCliente" => $_GET['cliente']);
     // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el localhost
     $response = $client->__soapCall('ConsultarCliente', array($parametros));
 ?>
@@ -83,21 +83,21 @@
                         <li class="breadcrumb-item active">Registrar Cliente</li>
                     </ol>
                     <!--BARRA DE BUSQUEDA CLIENTE-->
-                    <form class="validate-form needs-validation" novalidate action="functions/registrarCliente.php"
+                    <form class="validate-form needs-validation" novalidate action="functions/actualizarCliente.php?cliente=<?php echo $_GET['cliente'] ?>"
                         method="POST">
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="nombre">Nombre</label>
                                     <input class="form-control py-4" id="nombre" name="nombre" type="text"
-                                        placeholder="Ingresa el nombre" required value="<?php echo $response->{'nombre'}?>"/>
+                                        placeholder="Ingresa el nombre" value="<?php echo $response->{'nombre'}?>" required/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="apellido">Apellido</label>
                                     <input class="form-control py-4" id="apellido" name="apellido" type="text"
-                                        placeholder="Ingresa el apellido" required />
+                                        placeholder="Ingresa el apellido" value="<?php echo $response->{'apellido'}?>" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -105,14 +105,15 @@
                                     <label class="small mb-1" for="correo">Correo</label>
                                     <input class="form-control py-4" id="correo" name="correo" type="email"
                                         aria-describedby="emailHelp" placeholder="Ingresa el correo electronico"
-                                        required />
+                                        value="<?php echo $response->{'correo'}?>" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="telefono">Teléfono</label>
                                     <input class="form-control py-4" id="telefono" name="telefono" type="number"
-                                        placeholder="Ingresa el telefono" min="1000000000" max="9999999999" required />
+                                        placeholder="Ingresa el telefono" min="1000000000" max="9999999999" 
+                                        value="<?php echo $response->{'telefono'}?>" required />
                                 </div>
                             </div>
 
@@ -120,9 +121,37 @@
                                 <div class="form-group">
                                     <label class="small mb-1" for="formaPago">Forma de Pago</label>
                                     <select class="custom-select" id="formaPago" name="formaPago" required>
-                                        <option value="Credito" selected>Tarjeta de Crédito</option>
-                                        <option value="Debito">Tarjeta de Débito</option>
-                                        <option value="Efectivo">Efectivo</option>
+                                        <?php 
+                                            $formasPago = array("Credito", "Debito", "Efectivo");
+                                            
+                                            foreach ($formasPago as $forma){
+                                                if ($forma == $response->{'formaPago'}){
+                                                    switch ($forma) {
+                                                        case 'Credito':
+                                                            echo "<option value='".$forma."' selected>Tarjeta de Crédito</option>";
+                                                            break;
+                                                        case 'Debito':
+                                                            echo "<option value='".$forma."' selected>Tarjeta de Débito</option>";
+                                                            break;
+                                                        case 'Efectivo':
+                                                            echo "<option value='".$forma."' selected>Efectivo</option>";
+                                                            break;
+                                                    }
+                                                } else {
+                                                    switch ($forma) {
+                                                        case 'Credito':
+                                                            echo "<option value='".$forma."'>Tarjeta de Crédito</option>";
+                                                            break;
+                                                        case 'Debito':
+                                                            echo "<option value='".$forma."'>Tarjeta de Débito</option>";
+                                                            break;
+                                                        case 'Efectivo':
+                                                            echo "<option value='".$forma."'>Efectivo</option>";
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -130,7 +159,7 @@
                         <div class="form-row d-flex flex-row-reverse">
                             <div class="">
                                 <a href="clientes.php" class="btn btn-danger">Cancelar</a>
-                                <button type="submit" class="btn btn-success">Registrar Cliente</button>
+                                <button type="submit" class="btn btn-success">Actualizar Cliente</button>
                             </div>
                         </div>
                     </form>

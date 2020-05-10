@@ -73,6 +73,31 @@
             </nav>
         </div>
         <div id="layoutSidenav_content">
+            <!--MODAL ELIMINAR-->
+            <mensaje>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Eliminar cliente</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>Estas apunto de eliminar un cliente, esta accion no se puede revertir</p>
+                                <br>
+                                <p>¿Deseas proceder con la eliminación?</p>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <a class="btn btn-danger btn-ok">Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mensaje>
             <main>
                 <div class="container-fluid">
                     <h1 class="mt-4">Clientes</h1>
@@ -116,16 +141,13 @@
                                     $client = new SoapClient("http://localhost:8080/hotel.wsdl");
                                     // definicion y paso de parametros
                                     $parametros = array();
+                                    // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el localhost
                                     $response = $client->__soapCall('ObtenerListaClientes', array($parametros));
                                     
                                     $array = json_decode(json_encode($response), True);
 
                                     //echo "<pre>".print_r($response, true)."</pre>";
                                     foreach ($response->cliente as $c) {
-                                        
-                                        //$idCliente = $cliente->idCliente;
-                                        //$info->nombre;
-                                        
                                         print "<tr>";
                                         print "<td>".$c->nombre."</td>";
                                         print "<td>".$c->apellido."</td>";
@@ -134,18 +156,11 @@
                                         print "<td>".$c->formaPago."</td>";
                                         print "<td>
                                                 <a href='editarCliente.php?cliente=".$c->idCliente."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                <a href='eliminarCliente.php?cliente=".$c->idCliente."' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
+                                                <a href='#' data-href='functions/eliminarCliente.php?cliente=".$c->idCliente."'
+                                                data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
                                             </td>";
                                         print "</tr>";
                                     }
-
-                                    /*
-                                    print "<td>".$response->{'idCliente'}."</td>";
-                                    print "<td>".$response->{'apellido'}."</td>";
-                                    print "<td>".$response->{'telefono'}."</td>";
-                                    print "<td>".$response->{'correo'}."</td>";
-                                    print "<td>".$response->{'formaPago'}."</td>";
-                                    */
                                 ?>
 
                             </tbody>
@@ -169,6 +184,7 @@
     </script>
     <script src="js/scripts.js"></script>
     <script src="js/datatables.js"></script>
+    <script src="js/modalEliminar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/chart-area-demo.js"></script>
     <script src="assets/demo/chart-bar-demo.js"></script>
@@ -176,6 +192,10 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/datatables-demo.js"></script>
 
+
+    <script>
+       
+    </script>
 </body>
 
 </html>
