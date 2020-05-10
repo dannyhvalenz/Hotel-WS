@@ -89,14 +89,15 @@ public class ClienteDAO {
 		boolean resultado = false;
 		this.database = new ConexionAWS();
 		try {
-			this.database.connect().createStatement().execute(
-					"UPDATE clientes SET "
-					+ "nombre = '"+this.nombre+"'"
-					+ "apellido = '"+this.apellido+"'"
-					+ "telefono = '"+this.telefono+"'"
-					+ "correo = '"+this.correo+"'"
-					+ "formaPago = '"+this.formaPago+"'"
-					+ "WHERE idCliente = "+this.idCliente);
+			String query = "UPDATE clientes SET"
+					+ " nombre = '"+this.nombre+"',"
+					+ " apellido = '"+this.apellido+"',"
+					+ " telefono = '"+this.telefono+"',"
+					+ " correo = '"+this.correo+"',"
+					+ " formaPago = '"+this.formaPago+"'"
+					+ " WHERE idCliente = "+this.idCliente;
+			this.database.connect().createStatement().execute(query);
+			
 			resultado = true;
 		} catch (SQLException e) {
 			e.printStackTrace();

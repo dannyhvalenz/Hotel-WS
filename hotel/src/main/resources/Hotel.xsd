@@ -266,20 +266,21 @@
 	
 	<element name="ObtenerListaClientesResponse">
 		<complexType>
-      		<sequence>
-        		<element name="cliente" maxOccurs="unbounded">
-          			<complexType>
-			              	<attribute name="idCliente" type="int"></attribute>
-							<attribute name="nombre" type="string"></attribute>
-							<attribute name="apellido" type="string"></attribute>
-							<attribute name="telefono" type="string"></attribute>
-							<attribute name="correo" type="string"></attribute>
-							<attribute name="formaPago" type="string"></attribute>
-          			</complexType>
-        		</element>
-     	 	</sequence>
-    	</complexType>
+		    <sequence>
+		        <element name="cliente" maxOccurs="unbounded">
+		            <complexType>
+		                    <attribute name="idCliente" type="int" use="required"/>
+		                    <attribute name="nombre" type="string" use="required"/>
+		                    <attribute name="apellido" type="string" use="required"/>
+		                    <attribute name="telefono" type="string" use="required"/>
+		                    <attribute name="correo" type="string" use="required"/>
+		                    <attribute name="formaPago" type="string" use="required"/>
+		            </complexType>
+		        </element>
+		    </sequence>
+		</complexType>
 	</element>
+	
 
 
 	<!--Habitacion-->
