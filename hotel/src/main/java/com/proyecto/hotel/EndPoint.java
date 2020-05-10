@@ -2,6 +2,7 @@ package com.proyecto.hotel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,7 +55,10 @@ import model.Cliente;
 /*-----------------------------ESTANCIA---------------------------------*/
 import com.proyectosw.hotel.ModificarEstanciaRequest;
 import com.proyectosw.hotel.ModificarEstanciaResponse;
-
+import com.proyectosw.hotel.ObtenerClientesRequest;
+import com.proyectosw.hotel.ObtenerClientesResponse;
+import com.proyectosw.hotel.ObtenerListaClientesRequest;
+import com.proyectosw.hotel.ObtenerListaClientesResponse;
 import com.proyectosw.hotel.RealizarCheckInRequest;
 import com.proyectosw.hotel.RealizarCheckInResponse;
 
@@ -282,6 +286,66 @@ public class EndPoint {
 			respuesta.setTelefono(c.getTelefono());
 			respuesta.setFormaPago(c.getFormaPago());
 		}
+		
+		return respuesta;
+	}
+	
+	/**
+	 * Metodo para obtener una lista con los clientes de la base de datos
+	 */
+	@PayloadRoot(localPart = "ObtenerListaClientesRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ObtenerListaClientesResponse getObtenerListaClientes (@RequestPayload ObtenerListaClientesRequest peticion) {
+		ObtenerListaClientesResponse respuesta = new ObtenerListaClientesResponse();
+		ClienteDAO c = new ClienteDAO();
+		ArrayList<Cliente> clientes = c.getListaClientes();
+		
+		if(clientes.size() != 0) {
+			ArrayList<Integer> idCliente = new ArrayList<Integer>();
+			ArrayList<String> nombre = new ArrayList<String>();
+			ArrayList<String> apellido = new ArrayList<String>();
+			ArrayList<String> telefono = new ArrayList<String>();
+			ArrayList<String> correo = new ArrayList<String>();
+			ArrayList<String> formaPago = new ArrayList<String>();
+			
+			for (Cliente cliente : clientes) {
+				respuesta.getCliente().add(cliente);			
+			}
+			
+			/*
+			respuesta.setIdCliente(idCliente);
+			respuesta.setNombre(nombre);
+			respuesta.setApellido(apellido);
+			respuesta.setTelefono(telefono);
+			respuesta.setCorreo(correo);
+			respuesta.setFormaPago(formaPago);
+			*/
+		} else {
+			ArrayList<Integer> idCliente = new ArrayList<Integer>();
+			ArrayList<String> nombre = new ArrayList<String>();
+			ArrayList<String> apellido = new ArrayList<String>();
+			ArrayList<String> telefono = new ArrayList<String>();
+			ArrayList<String> correo = new ArrayList<String>();
+			ArrayList<String> formaPago = new ArrayList<String>();
+			
+			idCliente.add(0);
+			nombre.add("");
+			apellido.add("");
+			telefono.add("");
+			correo.add("");
+			formaPago.add("");
+			/*
+			respuesta.setIdCliente(idCliente);
+			respuesta.setNombre(nombre);
+			respuesta.setApellido(apellido);
+			respuesta.setTelefono(telefono);
+			respuesta.setCorreo(correo);
+			respuesta.setFormaPago(formaPago);
+			*/
+			
+		}
+		
 		
 		return respuesta;
 	}

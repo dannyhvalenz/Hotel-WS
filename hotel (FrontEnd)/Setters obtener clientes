@@ -1,0 +1,23 @@
+public void setIdCliente(List<Integer> idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public void setNombre(List<String> nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setApellido(List<String> apellido) {
+		this.apellido = apellido;
+	}
+	
+	public void setTelefono(List<String> telefono) {
+		this.telefono = telefono;
+	}
+
+	public void setCorreo(List<String> correo) {
+		this.correo = correo;
+	}
+
+	public void setFormaPago(List<String> formaPago) {
+		this.formaPago = formaPago;
+	}

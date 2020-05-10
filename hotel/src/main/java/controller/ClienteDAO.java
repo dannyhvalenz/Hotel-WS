@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,6 +50,14 @@ public class ClienteDAO {
 	 */
 	public ClienteDAO(int idCliente) {
 		this.idCliente = idCliente;
+	}
+	
+	/**
+	 * Constructor de CLIENTE vacio
+	 * @param idCliente
+	 */
+	public ClienteDAO() {
+		
 	}
 	
 	/**
@@ -195,5 +204,21 @@ public class ClienteDAO {
 			e.printStackTrace();
 		}
 		return cliente;
+	}
+	
+	public ArrayList<Cliente> getListaClientes(){
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM clientes");
+			while(rs.next()) {
+				Cliente cliente = new Cliente(rs.getInt("idCliente"),rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono")
+						, rs.getString("correo"), rs.getString("formaPago"));
+				clientes.add(cliente);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return clientes;
 	}
 }
