@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Estancias</title>
 
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -67,16 +67,14 @@
                     <h1 class="mt-4">Estancias</h1>
                     <!--BARRA DE BUSQUEDA CLIENTE-->
                     
-                    <div class="input-group mb-3">
-                            <a href="nuevaEstancia.php" class="btn btn-success">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                Nueva estancia
-                            </a>
-                            <input type="text" class="form-control" placeholder="Buscar estancia" aria-label="Buscar estancia" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
-                            </div>
-                    </div>
+                    <ol class="breadcrumb mb-3">
+                        <li class="breadcrumb-item active">Estancias</li>
+
+                    </ol>
+                    <a href="nuevaEstancia.php" class="float-right btn btn-sm btn-success mb-3">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Nueva Estancia
+                    </a>
 
                         
                 
@@ -84,34 +82,53 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-                                    <th>Forma de Pago</th>
+                                    <th>Fecha Check-In</th>
+                                    <th>Fecha Check-Out</th>
+                                    <th># de adultos</th>
+                                    <th># de niños</th>
+                                    <th># de Habitacion</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-                                    <th>Forma de Pago</th>
+                                    <th>Fecha Check-In</th>
+                                    <th>Fecha Check-Out</th>
+                                    <th># de adultos</th>
+                                    <th># de niños</th>
+                                    <th># de Habitacion</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <?php
+                            <?php
                                     // Instancua de la clase Soap Client
-                                    $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
+                                    $client = new SoapClient("http://localhost:8080/hotel.wsdl");
                                     // definicion y paso de parametros
-                                    $parametros = array("idCliente" => 101);
-                                    $response = $client->__soapCall('ConsultarCliente', array($parametros));
-                                    print "<td>".$response->{'nombre'}."</td>";
-                                    print "<td>".$response->{'apellido'}."</td>";
-                                    print "<td>".$response->{'telefono'}."</td>";
-                                    print "<td>".$response->{'correo'}."</td>";
-                                    print "<td>".$response->{'formaPago'}."</td>";
+                                    $parametros = array();
+                                    // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el localhost
+                                    $response = $client->__soapCall('ObtenerListaEstancias', array($parametros));
+                                    
+                                    $array = json_decode(json_encode($response), True);
+
+                                    //echo "<pre>".print_r($response, true)."</pre>";
+
+                                    if(isset($response->records)){
+                                        foreach ($response->cliente as $c) {
+                                            print "<tr>";
+                                            print "<td>".$c->fechaCheckIn."</td>";
+                                            print "<td>".$c->fechaCheckOut."</td>";
+                                            print "<td>".$c->numAdultos."</td>";
+                                            print "<td>".$c->numNinos."</td>";
+                                            print "<td>".$c->numHabitacion."</td>";
+                                            print "<td>
+                                                    <a href='editarEstancia.php?estancia=".$c->idEstancia."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                                    <a href='#' data-href='functions/eliminarEstancia.php?estancia=".$c->idEstancia."'
+                                                    data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
+                                                </td>";
+                                            print "</tr>";
+                                        }
+                                    } 
+                                   
+                                    
                                 ?>
                                 
                             </tbody>

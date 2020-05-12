@@ -146,21 +146,26 @@
                                     
                                     $array = json_decode(json_encode($response), True);
 
-                                    //echo "<pre>".print_r($response, true)."</pre>";
-                                    foreach ($response->cliente as $c) {
-                                        print "<tr>";
-                                        print "<td>".$c->nombre."</td>";
-                                        print "<td>".$c->apellido."</td>";
-                                        print "<td>".$c->telefono."</td>";
-                                        print "<td>".$c->correo."</td>";
-                                        print "<td>".$c->formaPago."</td>";
-                                        print "<td>
-                                                <a href='editarCliente.php?cliente=".$c->idCliente."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                <a href='#' data-href='functions/eliminarCliente.php?cliente=".$c->idCliente."'
-                                                data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
-                                            </td>";
-                                        print "</tr>";
-                                    }
+                                    echo "<pre>".print_r($response, true)."</pre>";
+
+                                    if(isset($response->records)){
+                                        foreach ($response->cliente as $c) {
+                                            print "<tr>";
+                                            print "<td>".$c->nombre."</td>";
+                                            print "<td>".$c->apellido."</td>";
+                                            print "<td>".$c->telefono."</td>";
+                                            print "<td>".$c->correo."</td>";
+                                            print "<td>".$c->formaPago."</td>";
+                                            print "<td>
+                                                    <a href='editarCliente.php?cliente=".$c->idCliente."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                                    <a href='#' data-href='functions/eliminarCliente.php?cliente=".$c->idCliente."'
+                                                    data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
+                                                </td>";
+                                            print "</tr>";
+                                        }
+                                    } 
+                                   
+                                    
                                 ?>
 
                             </tbody>

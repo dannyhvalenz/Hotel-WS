@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Reservaciones</title>
 
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -67,16 +67,14 @@
                     <h1 class="mt-4">Reservaciones</h1>
                     <!--BARRA DE BUSQUEDA CLIENTE-->
                     
-                    <div class="input-group mb-3">
-                            <a href="nuevaReservacion.php" class="btn btn-success">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                Nueva reservación
-                            </a>
-                            <input type="text" class="form-control" placeholder="Buscar reservacion" aria-label="Buscar reservacion" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
-                            </div>
-                    </div>
+                    <ol class="breadcrumb mb-3">
+                        <li class="breadcrumb-item active">Reservaciones</li>
+
+                    </ol>
+                    <a href="nuevoCliente.php" class="float-right btn btn-sm btn-success mb-3">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Nueva Reservacion
+                    </a>
 
                         
                 
@@ -104,17 +102,35 @@
                             </tfoot>
                             <tbody>
                                 <?php
-                                    // Instancua de la clase Soap Client
-                                    $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
-                                    // definicion y paso de parametros
-                                    $parametros = array("idReservacion" => 2);
-                                    $response = $client->__soapCall('ConsultarReservacion', array($parametros));
-                                    print "<td>".$response->{'idReservacion'}."</td>";
-                                    print "<td>".$response->{'fechaLlegada'}."</td>";
-                                    print "<td>".$response->{'fechaSalida'}."</td>";
-                                    print "<td>".$response->{'numAdultos'}."</td>";
-                                    print "<td>".$response->{'numNinos'}."</td>";
-                                    print "<td>".$response->{'tipoHabitacion'}."</td>";
+                                   
+                                   // Instancua de la clase Soap Client
+                                   $client = new SoapClient("http://localhost:8080/hotel.wsdl");
+                                   // definicion y paso de parametros
+                                   $parametros = array();
+                                   // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el localhost
+                                   $response = $client->__soapCall('ObtenerListaReservaciones', array($parametros));
+                                   
+                                   $array = json_decode(json_encode($response), True);
+
+                                   //echo "<pre>".print_r($response, true)."</pre>";
+
+                                   if(isset($response->records)){
+                                       foreach ($response->cliente as $c) {
+                                           print "<tr>";
+                                           print "<td>".$c->fechaCheckIn."</td>";
+                                           print "<td>".$c->fechaCheckOut."</td>";
+                                           print "<td>".$c->numAdultos."</td>";
+                                           print "<td>".$c->numNinos."</td>";
+                                           print "<td>".$c->numHabitacion."</td>";
+                                           print "<td>
+                                                   <a href='editarEstancia.php?estancia=".$c->idEstancia."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                                   <a href='#' data-href='functions/eliminarEstancia.php?estancia=".$c->idEstancia."'
+                                                   data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
+                                               </td>";
+                                           print "</tr>";
+                                       }
+                                   } 
+
                                 ?>
                                 
                             </tbody>

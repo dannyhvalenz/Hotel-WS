@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Habitaciones</title>
 
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -66,17 +66,14 @@
                 <div class="container-fluid">
                     <h1 class="mt-4">Habitaciones</h1>
                     <!--BARRA DE BUSQUEDA CLIENTE-->
-                    
-                    <div class="input-group mb-3">
-                            <a href="nuevaHabitacion.php" class="btn btn-success">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                Nueva Habitacion
-                            </a>
-                            <input type="text" class="form-control" placeholder="Buscar habitacion" aria-label="Buscar habitacion" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
-                            </div>
-                    </div>
+                    <ol class="breadcrumb mb-3">
+                        <li class="breadcrumb-item active">Habitaciones</li>
+
+                    </ol>
+                    <a href="nuevoCliente.php" class="float-right btn btn-sm btn-success mb-3">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Nueva Habitacion
+                    </a>
 
                         
                 
