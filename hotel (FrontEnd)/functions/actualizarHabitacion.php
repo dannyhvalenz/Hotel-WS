@@ -1,24 +1,26 @@
 <?php
     // Recuperar datos del form
-    $idCliente = $_GET['cliente'];
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $telefono = $_POST['telefono'];
-    $correo = $_POST['correo'];
-    $formaPago = $_POST['formaPago'];
+    $numHabitacion = $_POST['numHabitacion'];
+    $piso = $_POST['piso'];
+    $cupoPersonas = $_POST['cupoPersonas'];
+    $status = $_POST['status'];
+    $tipoHabitacion = $_POST['tipoHabitacion'];
+    $numCamas = $_POST['numCamas'];
+    // Limpiar cache
+    ini_set("soap.wsdl_cache_enabled", "0");
     // Instancua de la clase Soap Client
-    $client = new SoapClient("http://localhost:8080/hotel.wsdl");
+    $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
     // definicion y paso de parametros
-    $parametros = array("idCliente" => $idCliente,"nombre" => $nombre, "apellido" => $apellido, "telefono" => $telefono
-            , "correo" => $correo, "formaPago" => $formaPago);
-    $response = $client->__soapCall('EditarCliente', array($parametros));
-    print "<h1>".$response->{'respuesta'}."</h1>";
+    $parametros = array("numHabitacion" => $numHabitacion, "piso" => $piso, "numCamas" => $numCamas
+            , "cupoPersonas" => $cupoPersonas, "tipoHabitacion" => $tipoHabitacion, "status" => $status);
+    $response = $client->__soapCall('EditarHabitacion', array($parametros));
 
-    $exito = "Se ha actualizado al cliente " .$nombre. " " .$apellido. " en el sistema";
+    $exito = "Se ha actualizado la habitacion ".$numHabitacion." en el sistema";
+    $error = "No se ha podido actualizar la habitacion al sistema";
     if ($response->{'respuesta'} == $exito){
-        header("Location: ../clientes.php");
-    } else {
-        die(header("Location:../editarCliente.php?errorcliente=true&reason=fallido"));
+        header("Location: ../habitaciones.php");
+    } elseif ($response->{'respuesta'} == $error){
+        die(header("Location:../editarHabitacion.php?errorcliente=true&reason=error"));
     }
     
 ?>

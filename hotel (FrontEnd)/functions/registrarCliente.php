@@ -5,13 +5,14 @@
     $telefono = $_POST['telefono'];
     $correo = $_POST['correo'];
     $formaPago = $_POST['formaPago'];
+    // Limpiar cache
+    ini_set("soap.wsdl_cache_enabled", "0");
     // Instancua de la clase Soap Client
-    $client = new SoapClient("http://localhost:8080/hotel.wsdl");
+    $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
     // definicion y paso de parametros
     $parametros = array("nombre" => $nombre, "apellido" => $apellido, "telefono" => $telefono
             , "correo" => $correo, "formaPago" => $formaPago);
     $response = $client->__soapCall('RegistrarCliente', array($parametros));
-    print "<h1>".$response->{'respuesta'}."</h1>";
 
     $exito = "Se ha registrado al cliente " .$nombre. " " .$apellido. " en el sistema";
     $error = "No se ha podido registrar al cliente " .$nombre. " " .$apellido. " en el sistema";

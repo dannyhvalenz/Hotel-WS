@@ -30,7 +30,8 @@ import com.proyectosw.hotel.ConsultarEstanciaResponse;
 
 import com.proyectosw.hotel.ConsultarHabitacionRequest;
 import com.proyectosw.hotel.ConsultarHabitacionResponse;
-
+import com.proyectosw.hotel.ConsultarReservacionPorClienteRequest;
+import com.proyectosw.hotel.ConsultarReservacionPorClienteResponse;
 import com.proyectosw.hotel.ConsultarReservacionRequest;
 import com.proyectosw.hotel.ConsultarReservacionResponse;
 
@@ -55,8 +56,16 @@ import model.Cliente;
 /*-----------------------------ESTANCIA---------------------------------*/
 import com.proyectosw.hotel.ModificarEstanciaRequest;
 import com.proyectosw.hotel.ModificarEstanciaResponse;
+import com.proyectosw.hotel.ObtenerHabitacionesPorStatusRequest;
+import com.proyectosw.hotel.ObtenerHabitacionesPorStatusResponse;
 import com.proyectosw.hotel.ObtenerListaClientesRequest;
 import com.proyectosw.hotel.ObtenerListaClientesResponse;
+import com.proyectosw.hotel.ObtenerListaEstanciasRequest;
+import com.proyectosw.hotel.ObtenerListaEstanciasResponse;
+import com.proyectosw.hotel.ObtenerListaHabitacionesRequest;
+import com.proyectosw.hotel.ObtenerListaHabitacionesResponse;
+import com.proyectosw.hotel.ObtenerListaReservacionesRequest;
+import com.proyectosw.hotel.ObtenerListaReservacionesResponse;
 import com.proyectosw.hotel.RealizarCheckInRequest;
 import com.proyectosw.hotel.RealizarCheckInResponse;
 
@@ -96,7 +105,7 @@ public class EndPoint {
 		HacerReservacionResponse respuesta = new HacerReservacionResponse();
 		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getFechaLlegada(), peticion.getFechaSalida(), 
-				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
+				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
 		if (reservacion.registrarReservacion()) {
@@ -121,7 +130,7 @@ public class EndPoint {
 		EditarReservacionResponse respuesta = new EditarReservacionResponse();
 		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion(),peticion.getFechaLlegada(), peticion.getFechaSalida(), peticion.getNumAdultos(),
-				peticion.getNumNinos(), peticion.getNumCamas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
+				peticion.getNumNinos(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
 		if (reservacion.actualizarReservacion()) {
@@ -148,9 +157,9 @@ public class EndPoint {
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion());
 		
 		if (reservacion.eliminarReservacion()) {
-			respuesta.setRespuesta("Se ha eliminado la reservacion del sistema");
+			respuesta.setRespuesta("Se ha cancelado la reservacion del sistema");
 		} else {
-			respuesta.setRespuesta("No se ha podido eliminar la reservacion de la base de datos");
+			respuesta.setRespuesta("No se ha podido cancelar la reservacion de la base de datos");
 		}
 		
 		return respuesta;
@@ -171,27 +180,69 @@ public class EndPoint {
 		
 		Reservacion r = reservacion.consultarReservacion(peticion.getIdReservacion());
 		
-		if (r != null) {
-			Date date1 = Calendar.getInstance().getTime();  
-            DateFormat dateFormat1 = new SimpleDateFormat("yyyy-mm-dd");  
-            String fechaLlegada = dateFormat1.format(r.getFechaLlegada());  
-			respuesta.setFechaLlegada(fechaLlegada);
-			
-			Date date2 = Calendar.getInstance().getTime();  
-            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-mm-dd");  
-            String fechaSalida = dateFormat2.format(r.getFechaSalida());  
-			respuesta.setFechaLlegada(fechaSalida);
-			
+		if (r != null) {  
+			respuesta.setFechaLlegada(r.getFechaLlegada().toString());
+			respuesta.setFechaSalida(r.getFechaSalida().toString());
 			respuesta.setIdCliente(r.getIdCliente());
 			respuesta.setNumAdultos(r.getNumAdultos());
 			respuesta.setNumNinos(r.getNumNinos());
-			respuesta.setNumCamas(r.getNumCamas());
 			respuesta.setTipoHabitacion(r.getTipoHabitacion());
 			respuesta.setPrecio(r.getPrecio());
 		}
 		
 		return respuesta;
 	}
+	
+	/**
+	 * Metodo para obtener una lista con los clientes de la base de datos
+	 */
+	@PayloadRoot(localPart = "ObtenerListaReservacionesRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ObtenerListaReservacionesResponse getObtenerListaReservaciones (@RequestPayload ObtenerListaReservacionesRequest peticion) {
+		ObtenerListaReservacionesResponse respuesta = new ObtenerListaReservacionesResponse();
+		ReservacionDAO r = new ReservacionDAO();
+		ArrayList<ObtenerListaReservacionesResponse.Reservacion> reservaciones = r.getListaReservaciones();
+		
+		if(reservaciones.size() != 0) {
+			
+			for (ObtenerListaReservacionesResponse.Reservacion reservacion : reservaciones) {
+				respuesta.getReservacion().add(reservacion);
+				System.out.println();
+			}
+			
+		}
+		
+		return respuesta;
+	}
+	
+	/**
+	 * Metodo para obtener si un cliente tiene una reservacion
+	 */
+	@PayloadRoot(localPart = "ConsultarReservacionPorClienteRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ConsultarReservacionPorClienteResponse getConsultarReservacionPorCliente (@RequestPayload ConsultarReservacionPorClienteRequest peticion) {
+		ConsultarReservacionPorClienteResponse respuesta = new ConsultarReservacionPorClienteResponse();
+		
+		ReservacionDAO reservacion = new ReservacionDAO();
+		
+		Reservacion r = reservacion.consultarReservacionPorCliente(peticion.getIdCliente());
+		
+		if (r != null) {
+			respuesta.setFechaLlegada(r.getFechaLlegada().toString());
+			respuesta.setFechaSalida(r.getFechaSalida().toString());
+			respuesta.setIdReservacion(r.getIdReservacion());
+			respuesta.setNumAdultos(r.getNumAdultos());
+			respuesta.setNumNinos(r.getNumNinos());
+			respuesta.setTipoHabitacion(r.getTipoHabitacion());
+			respuesta.setPrecio(r.getPrecio());
+		}
+		
+		return respuesta;
+	}
+	
+	
 	
 	/*--CLIENTES-------------------------------------------------------------------------------------------*/
 	
@@ -299,50 +350,13 @@ public class EndPoint {
 	public ObtenerListaClientesResponse getObtenerListaClientes (@RequestPayload ObtenerListaClientesRequest peticion) {
 		ObtenerListaClientesResponse respuesta = new ObtenerListaClientesResponse();
 		ClienteDAO c = new ClienteDAO();
-		ArrayList<Cliente> clientes = c.getListaClientes();
+		ArrayList<ObtenerListaClientesResponse.Cliente> clientes = c.getListaClientes();
 		
 		if(clientes.size() != 0) {
-			ArrayList<Integer> idCliente = new ArrayList<Integer>();
-			ArrayList<String> nombre = new ArrayList<String>();
-			ArrayList<String> apellido = new ArrayList<String>();
-			ArrayList<String> telefono = new ArrayList<String>();
-			ArrayList<String> correo = new ArrayList<String>();
-			ArrayList<String> formaPago = new ArrayList<String>();
 			
-			for (Cliente cliente : clientes) {
-				respuesta.getCliente().add(cliente);		
+			for (int i=0;i<clientes.size();i++) {//ObtenerListaClientesResponse.Cliente cliente : clientes) {
+				respuesta.getCliente().add(clientes.get(i));	
 			}
-			
-			/*
-			respuesta.setIdCliente(idCliente);
-			respuesta.setNombre(nombre);
-			respuesta.setApellido(apellido);
-			respuesta.setTelefono(telefono);
-			respuesta.setCorreo(correo);
-			respuesta.setFormaPago(formaPago);
-			*/
-		} else {
-			ArrayList<Integer> idCliente = new ArrayList<Integer>();
-			ArrayList<String> nombre = new ArrayList<String>();
-			ArrayList<String> apellido = new ArrayList<String>();
-			ArrayList<String> telefono = new ArrayList<String>();
-			ArrayList<String> correo = new ArrayList<String>();
-			ArrayList<String> formaPago = new ArrayList<String>();
-			
-			idCliente.add(0);
-			nombre.add("");
-			apellido.add("");
-			telefono.add("");
-			correo.add("");
-			formaPago.add("");
-			/*
-			respuesta.setIdCliente(idCliente);
-			respuesta.setNombre(nombre);
-			respuesta.setApellido(apellido);
-			respuesta.setTelefono(telefono);
-			respuesta.setCorreo(correo);
-			respuesta.setFormaPago(formaPago);
-			*/
 			
 		}
 		
@@ -462,6 +476,29 @@ public class EndPoint {
 		return respuesta;
 	}
 	
+	/**
+	 * Metodo para obtener una lista con los clientes de la base de datos
+	 */
+	@PayloadRoot(localPart = "ObtenerListaEstanciasRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ObtenerListaEstanciasResponse getObtenerListaEstancias (@RequestPayload ObtenerListaEstanciasRequest peticion) {
+		ObtenerListaEstanciasResponse respuesta = new ObtenerListaEstanciasResponse();
+		EstanciaDAO e = new EstanciaDAO();
+		ArrayList<ObtenerListaEstanciasResponse.Estancia> estancias = e.getListaEstancias();
+		
+		if(estancias.size() != 0) {
+			
+			for (ObtenerListaEstanciasResponse.Estancia estancia : estancias) {
+				respuesta.getEstancia().add(estancia);		
+			}
+			
+		}
+		
+		
+		return respuesta;
+	}
+	
 	/*--HABITACIONES----------------------------------------------------------------------------------------*/
 	
 	/**
@@ -476,10 +513,12 @@ public class EndPoint {
 		AgregarHabitacionResponse respuesta = new AgregarHabitacionResponse();
 		HabitacionDAO habitacion = new HabitacionDAO(peticion.getNumHabitacion(), peticion.getPiso(), peticion.getNumCamas(),
 				peticion.getCupoPersonas(), peticion.getTipoHabitacion(), peticion.getStatus());
-		if (habitacion.agregarHabitacion()) {
+		if (habitacion.agregarHabitacion() == "Exito") {
 			respuesta.setRespuesta("Se ha agregado la habitacion " +habitacion.getNumHabitacion()+" al sistema");
-		} else {
+		} else if (habitacion.agregarHabitacion() == "Error") {
 			respuesta.setRespuesta("No se ha podido agregar la habitacion al sistema");
+		} else if (habitacion.agregarHabitacion() == "Duplicado") {
+			respuesta.setRespuesta("Ya existe una habitacion con ese numero de habitacion en el sistema");
 		}
 		return respuesta;
 	}
@@ -547,6 +586,49 @@ public class EndPoint {
 		
 		return respuesta;
 	}
+	
+	/**
+	 * Metodo para obtener una lista con las habitaciones de la base de datos
+	 */
+	@PayloadRoot(localPart = "ObtenerListaHabitacionesRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ObtenerListaHabitacionesResponse ObtenerListaHabitaciones (@RequestPayload ObtenerListaHabitacionesRequest peticion) {
+		ObtenerListaHabitacionesResponse respuesta = new ObtenerListaHabitacionesResponse();
+		HabitacionDAO h = new HabitacionDAO();
+		ArrayList<ObtenerListaHabitacionesResponse.Habitacion> habitaciones = h.getListaHabitaciones();
+		if(habitaciones.size() != 0) {
+		
+			for (int i = 0; i < habitaciones.size();i++) {
+				respuesta.getHabitacion().add(habitaciones.get(i));		
+			}
 			
+		}
+		
+		
+		return respuesta;
+	}
+	
+	/**
+	 * Metodo para obtener una lista con las habitaciones de la base de datos
+	 */
+	@PayloadRoot(localPart = "ObtenerHabitacionesPorStatusRequest", namespace = "http://proyectoSW.com/Hotel")
+	
+	@ResponsePayload
+	public ObtenerHabitacionesPorStatusResponse ObtenerHabitacionesPorStatus (@RequestPayload ObtenerHabitacionesPorStatusRequest peticion) {
+		ObtenerHabitacionesPorStatusResponse respuesta = new ObtenerHabitacionesPorStatusResponse();
+		HabitacionDAO h = new HabitacionDAO();
+		ArrayList<ObtenerHabitacionesPorStatusResponse.Habitacion> habitaciones = h.getListaHabitacionesPorStatus(peticion.getStatus());
+		if(habitaciones.size() != 0) {
+			
+			for (ObtenerHabitacionesPorStatusResponse.Habitacion habitacion : habitaciones) {
+				respuesta.getHabitacion().add(habitacion);
+			}
+			
+		}
+		
+		
+		return respuesta;
+	}
 	
 }

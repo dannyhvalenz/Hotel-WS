@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
-
+    <!--ICONO-->
+    <link rel="icon" type="image/png" href="img/favicon.png" />
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
@@ -16,10 +17,10 @@
 <body>
     <!--NAVBAR-->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a class="navbar-brand" href="index.html">Hotel</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0"
+            id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        <a class="navbar-brand" href="dashboard.php"><img src="img/hotel-logo3.svg" alt="Logo hotel"></a>
+        
         <!--DROPDOWN USER-->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <ul class="navbar-nav">
@@ -43,7 +44,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="dashboard.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -61,7 +62,7 @@
                             Reservaciones
                         </a>
                         <a class="nav-link" href="estancias.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell"></i></div>
                             Estancias
                         </a>
                     </div>
@@ -87,7 +88,7 @@
                             <div class="modal-body">
                                 <p>Estas apunto de eliminar un cliente, esta accion no se puede revertir</p>
                                 <br>
-                                <p>¿Deseas proceder con la eliminación?</p>
+                                <p>¿Deseas continuar?</p>
                             </div>
 
                             <div class="modal-footer">
@@ -110,8 +111,6 @@
                         Nuevo Cliente
                     </a>
                     <!--BARRA DE BUSQUEDA CLIENTE-->
-
-
 
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -137,34 +136,31 @@
                             </tfoot>
                             <tbody>
                                 <?php
+                                    ini_set("soap.wsdl_cache_enabled", "0");
                                     // Instancua de la clase Soap Client
-                                    $client = new SoapClient("http://localhost:8080/hotel.wsdl");
-                                    // definicion y paso de parametros
-                                    $parametros = array();
-                                    // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el localhost
-                                    $response = $client->__soapCall('ObtenerListaClientes', array($parametros));
+                                    $client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
+                                    //$client = new SoapClient("http://54.162.225.248:8080/hotel.wsdl");
+                                    // con la ruta de mi servicio en la nube manda el mismo error que aparece si yo dejo de ejecutar el 54.162.225.248
+                                    $response = $client->__soapCall('ObtenerListaClientes', array());
                                     
-                                    $array = json_decode(json_encode($response), True);
+                                    //$array = json_decode(json_encode($response), True);
 
-                                    echo "<pre>".print_r($response, true)."</pre>";
+                                    //echo "<pre>".print_r($response->{'cliente'})."</pre>";
 
-                                    if(isset($response->records)){
-                                        foreach ($response->cliente as $c) {
-                                            print "<tr>";
-                                            print "<td>".$c->nombre."</td>";
-                                            print "<td>".$c->apellido."</td>";
-                                            print "<td>".$c->telefono."</td>";
-                                            print "<td>".$c->correo."</td>";
-                                            print "<td>".$c->formaPago."</td>";
-                                            print "<td>
-                                                    <a href='editarCliente.php?cliente=".$c->idCliente."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                    <a href='#' data-href='functions/eliminarCliente.php?cliente=".$c->idCliente."'
-                                                    data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
-                                                </td>";
-                                            print "</tr>";
-                                        }
-                                    } 
-                                   
+                                    foreach ($response->{'cliente'} as $c) {
+                                        print "<tr>";
+                                        print "<td>".$c->{'nombre'}."</td>";
+                                        print "<td>".$c->{'apellido'}."</td>";
+                                        print "<td>".$c->{'telefono'}."</td>";
+                                        print "<td>".$c->{'correo'}."</td>";
+                                        print "<td>".$c->{'formaPago'}."</td>";
+                                        print "<td>
+                                                <a href='editarCliente.php?cliente=".$c->{'idCliente'}."' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                                <a href='#' data-href='functions/eliminarCliente.php?cliente=".$c->idCliente."'
+                                                data-toggle='modal' data-target='#confirm-delete' class='btn btn-sm btn-danger'><i class='far fa-trash-alt'></i></a>
+                                            </td>";
+                                        print "</tr>";
+                                    }
                                     
                                 ?>
 
@@ -199,7 +195,11 @@
 
 
     <script>
-       
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
     </script>
 </body>
 

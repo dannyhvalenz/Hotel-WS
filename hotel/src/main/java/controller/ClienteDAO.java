@@ -1,13 +1,15 @@
 package controller;
 
 import java.util.ArrayList;
+
+import com.proyectosw.hotel.ObtenerListaClientesResponse;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.ConexionAWS;
 import model.Cliente;
-import model.Estancia;
 
 public class ClienteDAO {
 	private int idCliente;
@@ -18,6 +20,7 @@ public class ClienteDAO {
 	private String formaPago;
 	
 	private ConexionAWS database;
+	private ObtenerListaClientesResponse.Cliente cliente;
 	
 	/**
 	 * Constructor de CLIENTE para registrar al cliente
@@ -84,7 +87,7 @@ public class ClienteDAO {
 			
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			resultado = "Error";
 		}
 		return resultado;
 	}
@@ -217,15 +220,19 @@ public class ClienteDAO {
 		return cliente;
 	}
 	
-	public ArrayList<Cliente> getListaClientes(){
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	public ArrayList<ObtenerListaClientesResponse.Cliente> getListaClientes(){
+		ArrayList<ObtenerListaClientesResponse.Cliente> clientes = new ArrayList<ObtenerListaClientesResponse.Cliente>();
 		this.database = new ConexionAWS();
 		try {
 			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM clientes");
 			while(rs.next()) {
-				Cliente cliente = new Cliente(rs.getInt("idCliente"),rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono")
-						, rs.getString("correo"), rs.getString("formaPago"));
-				clientes.add(cliente);
+				ObtenerListaClientesResponse.Cliente c = new ObtenerListaClientesResponse.Cliente(rs.getInt("idCliente"),rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono")
+							, rs.getString("correo"), rs.getString("formaPago"));
+				
+					
+					//= new Cliente(rs.getInt("idCliente"),rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono")
+					//	, rs.getString("correo"), rs.getString("formaPago"));
+				clientes.add(c);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

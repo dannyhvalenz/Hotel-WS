@@ -42,6 +42,9 @@ public class Habitacion {
 		this.tipoHabitacion = tipoHabitacion;
 		this.status = status;
 	}
+	
+	public Habitacion() {
+	}
 
 	/**
 	 * @return the numHabitacion

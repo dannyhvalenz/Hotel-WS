@@ -2,6 +2,10 @@ package controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.proyectosw.hotel.ObtenerHabitacionesPorStatusResponse;
+import com.proyectosw.hotel.ObtenerListaHabitacionesResponse;
 
 import database.ConexionAWS;
 import model.Habitacion;
@@ -42,6 +46,13 @@ public class HabitacionDAO {
 	}
 
 	/**
+	 * Constructor vacio
+	 */
+	public HabitacionDAO() {
+		
+	}
+	
+	/**
 	 * @return the numHabitacion
 	 */
 	public int getNumHabitacion() {
@@ -52,17 +63,26 @@ public class HabitacionDAO {
 	 * Metodo para agregar habitacion
 	 * @return true si fue exitoso y false si fue fallido
 	 */
-	public boolean agregarHabitacion() {
-		boolean resultado = false;
+	public String agregarHabitacion() {
 		this.database = new ConexionAWS();
+		String resultado = "Error";
 		try {
-			this.database.connect().createStatement().execute(
-					"INSERT INTO habitaciones (numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion, status) VALUES "
-					+ "('"+this.numHabitacion+"','"+this.piso+"','"+this.numCamas+"','"+this.cupoPersonas+"','"+this.tipoHabitacion
-					+"','"+this.status+"')");
-			resultado = true;
+			String queryDuplicado = "SELECT * FROM habitaciones WHERE numHabitacion='"+this.numHabitacion+"'";
+			ResultSet rs = this.database.connect().createStatement().executeQuery(queryDuplicado);
+			System.out.println("Revistar habitacion duplicada");
+			System.out.println(rs);
+			if (rs.next()) {
+				resultado = "Duplicado";
+			} else {
+				this.database.connect().createStatement().execute(
+						"INSERT INTO habitaciones (numHabitacion, piso, numCamas, cupoPersonas, tipoHabitacion, status) VALUES "
+						+ "('"+this.numHabitacion+"','"+this.piso+"','"+this.numCamas+"','"+this.cupoPersonas+"','"+this.tipoHabitacion
+						+"','"+this.status+"')");
+				resultado = "Exito";
+			}
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			resultado = "Error";
 		}
 		return resultado;
 	}
@@ -129,6 +149,43 @@ public class HabitacionDAO {
 			e.printStackTrace();
 		}
 		return habitacion;
+	}
+	
+	/**
+	 * Metodo para recuperar una lista de las habitaciones
+	 * @return lista de habitaciones
+	 */
+	public ArrayList<ObtenerListaHabitacionesResponse.Habitacion> getListaHabitaciones(){
+		ArrayList<ObtenerListaHabitacionesResponse.Habitacion> habitaciones = new ArrayList<ObtenerListaHabitacionesResponse.Habitacion>();
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM habitaciones");
+			while(rs.next()) {
+				ObtenerListaHabitacionesResponse.Habitacion habitacion = new ObtenerListaHabitacionesResponse.Habitacion(rs.getInt("numHabitacion"), rs.getInt("piso"), 
+						rs.getInt("numCamas"), rs.getInt("cupoPersonas"), rs.getString("tipoHabitacion"),
+						rs.getString("status"));
+				habitaciones.add(habitacion);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return habitaciones;
+	}
+	
+	public ArrayList<ObtenerHabitacionesPorStatusResponse.Habitacion> getListaHabitacionesPorStatus(String status){
+		ArrayList<ObtenerHabitacionesPorStatusResponse.Habitacion> habitaciones = new ArrayList<ObtenerHabitacionesPorStatusResponse.Habitacion>();
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM habitaciones WHERE status='"+status+"'");
+			while(rs.next()) {
+				ObtenerHabitacionesPorStatusResponse.Habitacion habitacion = new ObtenerHabitacionesPorStatusResponse.Habitacion(rs.getInt("numHabitacion"), rs.getInt("piso"), 
+						rs.getInt("numCamas"), rs.getInt("cupoPersonas"), rs.getString("tipoHabitacion"));
+				habitaciones.add(habitacion);
+			}
+		} catch (SQLException e) {
+			e.getCause();
+		}
+		return habitaciones;
 	}
 	
 }

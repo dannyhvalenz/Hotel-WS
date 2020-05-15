@@ -12,7 +12,6 @@
 				<element name="fechaSalida" type="string"/>
 				<element name="numAdultos" type="int"/>
 				<element name="numNinos" type="int"/>
-				<element name="numCamas" type="int"/>
 				<element name="tipoHabitacion" type="string"/>
 				<element name="idCliente" type="int"/>
 			</sequence>
@@ -36,7 +35,6 @@
 				<element name="fechaSalida" type="string"/>
 				<element name="numAdultos" type="int"/>
 				<element name="numNinos" type="int"/>
-				<element name="numCamas" type="int"/>
 				<element name="tipoHabitacion" type="string"/>
 				<element name="idCliente" type="int"/>
 			</sequence>
@@ -83,14 +81,67 @@
 				<element name="fechaSalida" type="string"/>
 				<element name="numAdultos" type="int"/>
 				<element name="numNinos" type="int"/>
-				<element name="numCamas" type="int"/>
 				<element name="tipoHabitacion" type="string"/>
 				<element name="idCliente" type="int"/>
 				<element name="precio" type="double"/>
+				<element name="status" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarReservacionPorClienteRequest">
+		<complexType>
+			<sequence>
+				<element name="idCliente" type="int"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ConsultarReservacionPorClienteResponse">
+		<complexType>
+			<sequence>
+				<element name="fechaLlegada" type="string"/>
+				<element name="fechaSalida" type="string"/>
+				<element name="numAdultos" type="int"/>
+				<element name="numNinos" type="int"/>
+				<element name="tipoHabitacion" type="string"/>
+				<element name="idReservacion" type="int"/>
+				<element name="precio" type="double"/>
+				<element name="status" type="string"/>
 			</sequence>
 		</complexType>
 	</element>
 
+	<element name="ObtenerListaReservacionesRequest">
+		<complexType>
+			<sequence>
+				
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerListaReservacionesResponse">
+		<complexType>
+		    <sequence>
+		        <element name="reservacion" maxOccurs="unbounded">
+		            <complexType>
+		            	<sequence>
+							<element name="numAdultos" type="int"/>
+							<element name="numNinos" type="int"/>
+							<element name="tipoHabitacion" type="string"/>
+							<element name="fechaLlegada" type="string"/>
+							<element name="fechaSalida" type="string"/>
+							<element name="precio" type="double"/>
+							<element name="idCliente" type="int"/>
+			            	<element name="idReservacion" type="int"/>
+			            	<element name="status" type="string"/>
+		            	</sequence>
+		            </complexType>
+		        </element>
+		    </sequence>
+		</complexType>
+	</element>
+	
 	<!--Estancia-->	
 	<element name="RealizarCheckInRequest">
 		<complexType>
@@ -98,6 +149,7 @@
 				<element name="numHabitacion" type="int"/>
 				<element name="numAdultos" type="int"/>
 				<element name="numNinos" type="int"/>
+				<element name="numCamas" type="int"/>
 				<element name="tipoHabitacion" type="string"/>
 				<element name="fechaCheckIn" type="string"/>
 				<element name="fechaCheckOut" type="string"/>
@@ -169,11 +221,42 @@
 				<element name="numNinos" type="int"/>
 				<element name="tipoHabitacion" type="string"/>
 				<element name="fechaCheckIn" type="string"/>
-				<element name="fechaCheckOut" type="string"></element>
+				<element name="fechaCheckOut" type="string"/>
 				<element name="status" type="string"/>
 				<element name="precio" type="double"/>
 				<element name="idCliente" type="int"/>
 			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerListaEstanciasRequest">
+		<complexType>
+			<sequence>
+				
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerListaEstanciasResponse">
+		<complexType>
+		    <sequence>
+		        <element name="estancia" maxOccurs="unbounded">
+		            <complexType>
+		            	<sequence>
+					        <element name="numHabitacion" type="int"/>
+							<element name="numAdultos" type="int"/>
+							<element name="numNinos" type="int"/>
+							<element name="tipoHabitacion" type="string"/>
+							<element name="fechaCheckIn" type="string"/>
+							<element name="fechaCheckOut" type="string"/>
+							<element name="status" type="string"/>
+							<element name="precio" type="double"/>
+							<element name="idCliente" type="int"/>
+			            	<element name="idEstancia" type="int"/>
+		            	</sequence>
+		            </complexType>
+		        </element>
+		    </sequence>
 		</complexType>
 	</element>
 
@@ -269,12 +352,14 @@
 		    <sequence>
 		        <element name="cliente" maxOccurs="unbounded">
 		            <complexType>
-		                    <attribute name="idCliente" type="int" use="required"/>
-		                    <attribute name="nombre" type="string" use="required"/>
-		                    <attribute name="apellido" type="string" use="required"/>
-		                    <attribute name="telefono" type="string" use="required"/>
-		                    <attribute name="correo" type="string" use="required"/>
-		                    <attribute name="formaPago" type="string" use="required"/>
+		            	<sequence>
+		                    <element name="idCliente" type="int"/>
+		                    <element name="nombre" type="string"/>
+		                    <element name="apellido" type="string"/>
+		                    <element name="telefono" type="string"/>
+		                    <element name="correo" type="string"/>
+		                    <element name="formaPago" type="string"/>
+	                    </sequence>
 		            </complexType>
 		        </element>
 		    </sequence>
@@ -359,6 +444,59 @@
 				<element name="tipoHabitacion" type="string"/>
 				<element name="status" type="string"/>
 			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerListaHabitacionesRequest">
+		<complexType>
+			<sequence>
+				
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerListaHabitacionesResponse">
+		<complexType>
+		    <sequence>
+		        <element name="habitacion" maxOccurs="unbounded">
+		            <complexType>
+		            <sequence>
+		            		<element name="numHabitacion" type="int"/>
+		                    <element name="piso" type="int"/>
+		                    <element name="numCamas" type="int"/>
+		                    <element name="cupoPersonas" type="int"/>
+		                    <element name="tipoHabitacion" type="string"/>
+		                    <element name="status" type="string"/>
+		                   </sequence>
+		            </complexType>
+		        </element>
+		    </sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerHabitacionesPorStatusRequest">
+		<complexType>
+			<sequence>
+				<element name="status" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="ObtenerHabitacionesPorStatusResponse">
+		<complexType>
+		    <sequence>
+		        <element name="habitacion" maxOccurs="unbounded">
+		            <complexType>
+		            	<sequence>
+		            		<element name="numHabitacion" type="int"/>
+		                    <element name="piso" type="int"/>
+		                    <element name="numCamas" type="int"/>
+		                    <element name="cupoPersonas" type="int"/>
+		                    <element name="tipoHabitacion" type="string"/>
+	                    </sequence>
+		            </complexType>
+		        </element>
+		    </sequence>
 		</complexType>
 	</element>
 </schema>

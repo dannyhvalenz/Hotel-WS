@@ -1,10 +1,15 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.proyectosw.hotel.ObtenerListaReservacionesResponse;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 
 import database.ConexionAWS;
+import model.Estancia;
 import model.Reservacion;
 
 public class ReservacionDAO {
@@ -13,13 +18,13 @@ public class ReservacionDAO {
 	private Date fechaSalida;
 	private int numAdultos;
 	private int numNinos;
-	private int numCamas;
 	private String tipoHabitacion;
 	private double precio;
 	private int idCliente;
 	
 	private ConexionAWS database;
 	
+	public ReservacionDAO() {}
 	/**
 	 * @param idReservacion
 	 * @param fechaLlegada
@@ -32,13 +37,12 @@ public class ReservacionDAO {
 	 * @param idCliente
 	 */
 	public ReservacionDAO(int idReservacion, String fechaLlegada, String fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion,  int idCliente) {
+			String tipoHabitacion,  int idCliente) {
 		this.idReservacion = idReservacion;
 		this.fechaLlegada = Date.valueOf(fechaLlegada);
 		this.fechaSalida = Date.valueOf(fechaSalida);
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
-		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.idCliente = idCliente;
 	}
@@ -54,12 +58,11 @@ public class ReservacionDAO {
 	 * @param idCliente
 	 */
 	public ReservacionDAO(String fechaLlegada, String fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion, int idCliente) {
+			String tipoHabitacion, int idCliente) {
 		this.fechaLlegada = Date.valueOf(fechaLlegada);
 		this.fechaSalida = Date.valueOf(fechaSalida);
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
-		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.idCliente = idCliente;
 	}
@@ -70,6 +73,7 @@ public class ReservacionDAO {
 	public ReservacionDAO(int idReservacion) {
 		this.idReservacion = idReservacion;
 	}
+	
 
 	/**
 	 * @return the idReservacion
@@ -88,9 +92,9 @@ public class ReservacionDAO {
 		this.database = new ConexionAWS();
 		try {
 			this.database.connect().createStatement().execute(
-					"INSERT INTO reservaciones (fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, precio, idCliente) VALUES "
-					+ "('"+this.fechaLlegada+"','"+this.fechaSalida+"','"+this.numAdultos+"','"+this.numNinos+"','"+this.numCamas
-					+"','"+this.tipoHabitacion+"','"+this.precio+"','"+this.idCliente+"')");
+					"INSERT INTO reservaciones (fechaLlegada, fechaSalida, numAdultos, numNinos, tipoHabitacion, precio, idCliente, status) VALUES "
+					+ "('"+this.fechaLlegada+"','"+this.fechaSalida+"','"+this.numAdultos+"','"+this.numNinos
+					+"','"+this.tipoHabitacion+"','"+this.precio+"','"+this.idCliente+"','Vigente')");
 			resultado = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,7 +117,6 @@ public class ReservacionDAO {
 							+ " ,fechaSalida = '"+this.fechaSalida+"'"
 							+ " ,numAdultos = "+this.numAdultos
 							+ " ,numNinos = "+this.numNinos
-							+ " ,numCamas = '"+this.numCamas+"'"
 							+ " ,tipoHabitacion = '"+this.tipoHabitacion+"'"
 							+ " ,precio = '"+this.precio+"'"
 							+ " ,idCliente = "+this.idCliente
@@ -135,7 +138,9 @@ public class ReservacionDAO {
 		this.database = new ConexionAWS();
 		try {
 			this.database.connect().createStatement().execute(
-					"DELETE FROM reservaciones WHERE idReservacion = "+this.idReservacion);
+					"UPDATE reservaciones SET "
+					+ "status = 'Cancelada'"
+					+ " WHERE idReservacion = "+this.idReservacion);
 			resultado = true;				
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -182,8 +187,49 @@ public class ReservacionDAO {
 			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM reservaciones WHERE idReservacion="+id);
 			while(rs.next()) {
 				reservacion = new Reservacion(rs.getDate("fechaLlegada"),rs.getDate("fechaSalida"),
-						rs.getInt("numAdultos"), rs.getInt("numNinos"), rs.getInt("numCamas"), 
+						rs.getInt("numAdultos"), rs.getInt("numNinos"), 
 						rs.getString("tipoHabitacion"), rs.getDouble("precio"), rs.getInt("idCliente"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reservacion;
+	}
+	
+	public ArrayList<ObtenerListaReservacionesResponse.Reservacion> getListaReservaciones(){
+		ArrayList<ObtenerListaReservacionesResponse.Reservacion> reservaciones = new ArrayList<ObtenerListaReservacionesResponse.Reservacion>();
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM reservaciones");
+			while(rs.next()) {
+				ObtenerListaReservacionesResponse.Reservacion reservacion = 
+						new ObtenerListaReservacionesResponse.Reservacion(rs.getInt("numAdultos"), rs.getInt("numNinos"), 
+								rs.getString("tipoHabitacion"),rs.getDate("fechaLlegada").toString(),rs.getDate("fechaSalida").toString(),
+								rs.getDouble("precio"),rs.getInt("idCliente"), rs.getInt("idReservacion"), rs.getString("status"));
+				reservaciones.add(reservacion);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reservaciones;
+	}
+	
+	/**
+	 * Metodo para consultar una reservacion
+	 * @param id
+	 * @return
+	 */
+	public Reservacion consultarReservacionPorCliente(int id) {
+		Reservacion reservacion = null;
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM reservaciones WHERE idCliente="+id);
+			
+			while(rs.next()) {
+				reservacion = new Reservacion(rs.getInt("idReservacion"),rs.getDate("fechaLlegada"),rs.getDate("fechaSalida"),
+						rs.getInt("numAdultos"), rs.getInt("numNinos"), 
+						rs.getString("tipoHabitacion"), rs.getDouble("precio"), rs.getInt("idCliente"), rs.getString("status"));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

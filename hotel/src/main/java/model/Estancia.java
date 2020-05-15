@@ -14,6 +14,8 @@ public class Estancia {
 	private String status;
 	private String tipoHabitacion;
 	
+	
+	public Estancia() {}
 	/**
 	 * @param idEstancia
 	 * @param numHabitacion

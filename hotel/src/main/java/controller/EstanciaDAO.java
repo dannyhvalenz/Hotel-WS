@@ -1,12 +1,15 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.ResultSet;
 
 import database.ConexionAWS;
+import model.Cliente;
 import model.Estancia;
 import model.Reservacion;
+import com.proyectosw.hotel.ObtenerListaEstanciasResponse;
 
 public class EstanciaDAO {
 	private int idEstancia;
@@ -22,6 +25,8 @@ public class EstanciaDAO {
 	
 	private ConexionAWS database;
 
+	
+	public EstanciaDAO() {}
 	/**
 	 * @param idEstancia
 	 * @param numHabitacion
@@ -256,5 +261,23 @@ public class EstanciaDAO {
 		return estancia;
 	}
 	
+	
+	public ArrayList<ObtenerListaEstanciasResponse.Estancia> getListaEstancias(){
+		ArrayList<ObtenerListaEstanciasResponse.Estancia> estancias = new ArrayList<ObtenerListaEstanciasResponse.Estancia>();
+		this.database = new ConexionAWS();
+		try {
+			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM estancias");
+			while(rs.next()) {
+				ObtenerListaEstanciasResponse.Estancia estancia = new ObtenerListaEstanciasResponse.Estancia(rs.getInt("numHabitacion"), rs.getInt("numAdultos")
+						, rs.getInt("numNinos"), rs.getString("tipoHabitacion"),  rs.getDate("fechaCheckIn").toString()
+						, rs.getDate("fechaCheckOut").toString() , rs.getString("status")
+						,  rs.getDouble("precio"), rs.getInt("idCliente"), rs.getInt("idEstancia"));
+				estancias.add(estancia);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return estancias;
+	}
 	
 }

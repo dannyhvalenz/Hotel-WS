@@ -8,33 +8,33 @@ public class Reservacion {
 	private Date fechaSalida;
 	private int numAdultos;
 	private int numNinos;
-	private int numCamas;
 	private String tipoHabitacion;
 	private double precio;
 	private int idCliente;
+	private String status;
 	
+	public Reservacion() {}
 	/**
 	 * @param idReservacion
 	 * @param fechaLlegada
 	 * @param fechaSalida
 	 * @param numAdultos
 	 * @param numNinos
-	 * @param numCamas
 	 * @param tipoHabitacion
 	 * @param precio
 	 * @param idCliente
 	 */
-	public Reservacion(int idReservacion, String fechaLlegada, String fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion, double precio, int idCliente) {
+	public Reservacion(int idReservacion, Date fechaLlegada, Date fechaSalida, int numAdultos, int numNinos,
+			String tipoHabitacion, double precio, int idCliente, String status) {
 		this.idReservacion = idReservacion;
-		this.fechaLlegada = Date.valueOf(fechaLlegada);
-		this.fechaSalida = Date.valueOf(fechaSalida);
+		this.fechaLlegada = fechaLlegada;
+		this.fechaSalida = fechaSalida;
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
-		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.precio = precio;
 		this.idCliente = idCliente;
+		this.status = status;
 	}
 	
 	/**
@@ -42,18 +42,16 @@ public class Reservacion {
 	 * @param fechaSalida
 	 * @param numAdultos
 	 * @param numNinos
-	 * @param numCamas
 	 * @param tipoHabitacion
 	 * @param precio
 	 * @param idCliente
 	 */
 	public Reservacion(Date fechaLlegada, Date fechaSalida, int numAdultos, int numNinos,
-			int numCamas, String tipoHabitacion, double precio, int idCliente) {
+			 String tipoHabitacion, double precio, int idCliente) {
 		this.fechaLlegada = fechaLlegada;
 		this.fechaSalida = fechaSalida;
 		this.numAdultos = numAdultos;
 		this.numNinos = numNinos;
-		this.numCamas = numCamas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.precio = precio;
 		this.idCliente = idCliente;
@@ -137,20 +135,6 @@ public class Reservacion {
 	}
 
 	/**
-	 * @return the numCamas
-	 */
-	public int getNumCamas() {
-		return numCamas;
-	}
-
-	/**
-	 * @param numCamas the numCamas to set
-	 */
-	public void setNumCamas(int numCamas) {
-		this.numCamas = numCamas;
-	}
-
-	/**
 	 * @return the tipoHabitacion
 	 */
 	public String getTipoHabitacion() {
@@ -191,4 +175,18 @@ public class Reservacion {
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
 	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 }
