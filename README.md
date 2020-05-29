@@ -2,7 +2,11 @@
 ## Descripción
 Sistema web de un hotel
 
-[Link del Servidor](http://54.162.225.248:8080/hotel.wsdl)
+[Link del Servidor SOAP](http://54.162.225.248:8080/hotel.wsdl)
+
+[Link servidor REST](https://rest-hotel.herokuapp.com/habitaciones)
+
+[Link del Cliente](http://54.162.225.248/web/Hotel-WS/clientes.php)
 
 ## Casos de uso
 
