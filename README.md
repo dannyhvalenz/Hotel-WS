@@ -10,7 +10,7 @@ Sistema web de un hotel
 
 ## Documentación
 
-[Link a la Documentación]()
+[Link a la Documentación](https://github.com/dannyhvalenz/Hotel-WS/tree/master/DOCS)
 
 
 
