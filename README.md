@@ -16,7 +16,41 @@ Sistema web de un hotel
 
 ## Instalación
 
+### Cliente
 
+La carpeta `CLIENT` debe agregarse a la carpeta de tu servidor.
+
+### SOAP
+
+La carpeta `SOAP` se puede abrir desde eclipse. No es necesario cambiar la ubicación de esta carpeta.
+
+### REST
+
+En el caso de REST, es necesario seguir estos pasos para que el sistema funciones de la forma correcta
+
+1. Debes instalar [NodeJS](https://nodejs.org/es/download/) en tu computadora
+
+2. Una vez instalado, abre una terminal desde la carpeta REST del proyecto
+
+   ```
+   cd /ruta/de/la/carpeta/rest
+   ```
+
+3. Ya teniendo la terminal desde la carpeta REST ejecuta el siguiente comando
+
+   ```
+   npm install
+   ```
+
+   Esto instalará todas las dependencias que necesita el proyecto para funcionar correctamente
+
+4. Por último, ejecuta este comando para que puedas empezar a utilizar este servicio REST
+
+   ```
+   node server.js
+   ```
+
+   
 
 ## Dependencias
 
@@ -69,5 +103,4 @@ SpringBoot dependencies
 </dependency>
 ```
 
-
-
+NodeJS
