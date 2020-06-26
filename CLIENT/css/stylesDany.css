@@ -19,3 +19,22 @@
         border: none;
         box-shadow: none;
     }
+
+    .selector {
+        background-color: #E9ECEF;
+        color: black;
+        /*E9ECEF*/
+        border-width: 0px;
+        border: none;
+        box-shadow: none;
+    }
+
+    .selector:focus {
+        background-color: white;
+        border-width: 0px;
+        border: none;
+        box-shadow: none;
+    }
+    .no-border{
+        border:none
+    }

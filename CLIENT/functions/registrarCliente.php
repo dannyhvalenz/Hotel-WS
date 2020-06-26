@@ -18,7 +18,7 @@
     $error = "No se ha podido registrar al cliente " .$nombre. " " .$apellido. " en el sistema";
     $duplicado = "Ya existe un cliente con correo=".$correo." y telefono=".$telefono;
     if ($response->{'respuesta'} == $exito){
-        header("Location: ../clientes.php");
+        header("Location: ../clientes.html");
     } elseif ($response->{'respuesta'} == $duplicado) {
         die(header("Location:../nuevoCliente.php?errorcliente=true&reason=duplicado"));
     } elseif ($response->{'respuesta'} == $error){

@@ -18,7 +18,7 @@
 
     $exito = "Se ha actualizado al cliente " .$nombre. " " .$apellido. " en el sistema";
     if ($response->{'respuesta'} == $exito){
-        header("Location: ../clientes.php");
+        header("Location: ../clientes.html");
     } else {
         die(header("Location:../editarCliente.php?errorcliente=true&reason=fallido"));
     }
