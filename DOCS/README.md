@@ -1,7 +1,7 @@
 # Hotel
 ## Casos de uso
 
-![Diagrama de casos de uso](https://github.com/dannyhvalenz/Hotel-WS/blob/master/DOCS/Diagrama-de-casos-de-uso.png)
+![Diagrama de casos de uso](https://github.com/dannyhvalenz/Hotel-WS/blob/master/DOCS/Diagrama-de-clases.png)
 
 - [x] Hacer reservacion
 
