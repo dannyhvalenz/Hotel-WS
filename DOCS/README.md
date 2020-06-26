@@ -1,7 +1,7 @@
 # Hotel
 ## Casos de uso
 
-![Diagrama de casos de uso](https://github.com/dannyhvalenz/Hotel-WS/blob/master/docs/Diagrama-de-casos-de-uso.png)
+![Diagrama de casos de uso](https://github.com/dannyhvalenz/Hotel-WS/blob/master/DOCS/Diagrama-de-casos-de-uso.png)
 
 - [x] Hacer reservacion
 
@@ -26,30 +26,6 @@
 - [x] Cancelar reservacion
 
 - [x] Consultar reservación
-
-- [x] Realizar check-in
-
-  ```xml
-  <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
-      <Body>
-          <RealizarCheckInRequest xmlns="http://proyectoSW.com/Hotel">
-              <numHabitacion>1</numHabitacion>
-              <numAdultos>1</numAdultos>
-              <numNinos>0</numNinos>
-              <tipoHabitacion>Individual</tipoHabitacion>
-              <fechaCheckIn>2020-04-04</fechaCheckIn>
-              <fechaCheckOut>2020-04-14</fechaCheckOut>
-              <idCliente>23</idCliente>
-          </RealizarCheckInRequest>
-      </Body>
-  </Envelope>
-  ```
-
-- [x] Modificar estancia (Aplazar o acortar estancia)
-
-- [x] Realizar check-out
-
-- [x] Consultar estancia
 
 - [x] Registrar cliente
 
@@ -114,20 +90,6 @@
 | tipoHabitacion | String ||
 | idCliente      | Int    ||
 
-### Estancia
-
-| Parámetro | Tipo   | Formato|
-| ------------- | ------ | -------|
-| idEstancia    | Int    ||
-| numHabitacion | Int    ||
-| numAdultos    | Int    ||
-| numNinos      | Int    ||
-| precio        | Double |Calculado a partir de fechaSalida - fechaLlegada|
-| fechaCheckIn  | Date   |Formato`yyyy-mm-dd`|
-| fechaCheckOut | Date   |Formato`yyyy-mm-dd`|
-| Status | String |`Check-In` o `Check-Out`|
-| idCliente | Int ||
-| tipoHabitacion | String ||
 
 ### Habitacion
 
@@ -158,10 +120,6 @@
 | Editar reservación                     | `idReservacion, fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, idCliente` | Mensaje("Se ha actualizado la reservacion numero `idReservacion` en el sistema") y `precio` |
 | Cancelar reservación                   | `idReservacion`                                              | Mensaje("Se ha eliminado la reservacion del sistema")        |
 | Consultar reservación                  | `idReservacion`                                              | `fechaLlegada, fechaSalida, numAdultos, numNinos, numCamas, tipoHabitacion, precio, idCliente` |
-| Realizar Check-In                      | `numHabitacion, numAdultos, numNinos, tipoHabitacion, fechaCheckIn, fechaCheckOut, idCliente` | Mensaje("Se ha realizado el check-in en la habitacion `numHabitacion`"), `status` y `precio` |
-| Modificar estancia (aplazar o acortar) | `idEstancia, fechaCheckOut`                                  | Mensaje("Se ha modificado la fecha de salida de la estancia numero `idEstancia`"), `status` y `precio` |
-| Realizar Check-Out                     | `idEstancia, fechaCheckOut`                                  | Mensaje("Se ha realizado el check-out de la estancia numero `idEstancia`"), `status` y `precio` |
-| Consultar Estancia                     | `idEstancia`                                                 | `numHabitacion, numAdultos, numNinos, tipoHabitacion, fechaCheckIn, fechaCheckOut, idCliente, status, precio` |
 | Registrar cliente                      | `nombre, apellido, telefono, correo, formaPago`              | Mensaje("Se ha registrado al cliente `nombre apellido` en el sistema") |
 | Actualizar cliente                     | `idCliente, nombre, apellido, telefono, correo, formaPago`   | Mensaje("Se ha actualizado al cliente `nombre apellido` en el sistema") |
 | Eliminar cliente                       | `idCliente`                                                  | Mensaje("Se ha eliminado al cliente del sistema")            |
