@@ -5,8 +5,7 @@ import java.util.Date;
 public class Estancia {
 	private int idEstancia;
 	private int numHabitacion;
-	private int numAdultos;
-	private int numNinos;
+	private int numPersonas;
 	private double precio;
 	private Date fechaCheckIn;
 	private Date fechaCheckOut;
@@ -19,19 +18,17 @@ public class Estancia {
 	/**
 	 * @param idEstancia
 	 * @param numHabitacion
-	 * @param numAdultos
-	 * @param numNinos
+	 * @param numPersonas
 	 * @param precio
 	 * @param fechaCheckIn
 	 * @param fechaCheckOut
 	 * @param idCliente
 	 */
-	public Estancia(int idEstancia, int numHabitacion, int numAdultos, int numNinos, double precio, Date fechaCheckIn,
+	public Estancia(int idEstancia, int numHabitacion, int numPersonas, double precio, Date fechaCheckIn,
 			Date fechaCheckOut, String status, String tipoHabitacion, int idCliente) {
 		this.idEstancia = idEstancia;
 		this.numHabitacion = numHabitacion;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.precio = precio;
 		this.fechaCheckIn = fechaCheckIn;
 		this.fechaCheckOut = fechaCheckOut;
@@ -43,8 +40,7 @@ public class Estancia {
 	/**
 	 * 
 	 * @param numHabitacion
-	 * @param numAdultos
-	 * @param numNinos
+	 * @param numPersonas
 	 * @param precio
 	 * @param fechaCheckIn
 	 * @param fechaCheckOut
@@ -52,11 +48,10 @@ public class Estancia {
 	 * @param tipoHabitacion
 	 * @param idCliente
 	 */
-	public Estancia(int numHabitacion, int numAdultos, int numNinos, double precio, Date fechaCheckIn,
+	public Estancia(int numHabitacion, int numPersonas, double precio, Date fechaCheckIn,
 			Date fechaCheckOut, String status, String tipoHabitacion, int idCliente) {
 		this.numHabitacion = numHabitacion;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.precio = precio;
 		this.fechaCheckIn = fechaCheckIn;
 		this.fechaCheckOut = fechaCheckOut;
@@ -138,31 +133,17 @@ public class Estancia {
 	}
 
 	/**
-	 * @return the numAdultos
+	 * @return the numPersonas
 	 */
-	public int getNumAdultos() {
-		return numAdultos;
+	public int getNumPersonas() {
+		return numPersonas;
 	}
 
 	/**
-	 * @param numAdultos the numAdultos to set
+	 * @param numPersonas the numPersonas to set
 	 */
-	public void setNumAdultos(int numAdultos) {
-		this.numAdultos = numAdultos;
-	}
-
-	/**
-	 * @return the numNinos
-	 */
-	public int getNumNinos() {
-		return numNinos;
-	}
-
-	/**
-	 * @param numNinos the numNinos to set
-	 */
-	public void setNumNinos(int numNinos) {
-		this.numNinos = numNinos;
+	public void setNumPersonas(int numPersonas) {
+		this.numPersonas = numPersonas;
 	}
 
 	/**

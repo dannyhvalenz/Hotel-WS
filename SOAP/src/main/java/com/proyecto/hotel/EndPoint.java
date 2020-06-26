@@ -105,7 +105,7 @@ public class EndPoint {
 		HacerReservacionResponse respuesta = new HacerReservacionResponse();
 		
 		ReservacionDAO reservacion = new ReservacionDAO(peticion.getFechaLlegada(), peticion.getFechaSalida(), 
-				peticion.getNumAdultos(),peticion.getNumNinos(), peticion.getTipoHabitacion(),peticion.getIdCliente());
+				peticion.getNumPersonas(), peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
 		if (reservacion.registrarReservacion()) {
@@ -129,8 +129,8 @@ public class EndPoint {
 	public EditarReservacionResponse getEditarReservacion (@RequestPayload EditarReservacionRequest peticion) {
 		EditarReservacionResponse respuesta = new EditarReservacionResponse();
 		
-		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion(),peticion.getFechaLlegada(), peticion.getFechaSalida(), peticion.getNumAdultos(),
-				peticion.getNumNinos(),peticion.getTipoHabitacion(),peticion.getIdCliente());
+		ReservacionDAO reservacion = new ReservacionDAO(peticion.getIdReservacion(),peticion.getFechaLlegada(), peticion.getFechaSalida(),
+				peticion.getNumPersonas(),peticion.getTipoHabitacion(),peticion.getIdCliente());
 		
 		double precio = reservacion.getPrecio();
 		if (reservacion.actualizarReservacion()) {
@@ -184,8 +184,7 @@ public class EndPoint {
 			respuesta.setFechaLlegada(r.getFechaLlegada().toString());
 			respuesta.setFechaSalida(r.getFechaSalida().toString());
 			respuesta.setIdCliente(r.getIdCliente());
-			respuesta.setNumAdultos(r.getNumAdultos());
-			respuesta.setNumNinos(r.getNumNinos());
+			respuesta.setNumPersonas(r.getNumPersonas());
 			respuesta.setTipoHabitacion(r.getTipoHabitacion());
 			respuesta.setPrecio(r.getPrecio());
 		}
@@ -233,8 +232,7 @@ public class EndPoint {
 			respuesta.setFechaLlegada(r.getFechaLlegada().toString());
 			respuesta.setFechaSalida(r.getFechaSalida().toString());
 			respuesta.setIdReservacion(r.getIdReservacion());
-			respuesta.setNumAdultos(r.getNumAdultos());
-			respuesta.setNumNinos(r.getNumNinos());
+			respuesta.setNumPersonas(r.getNumPersonas());
 			respuesta.setTipoHabitacion(r.getTipoHabitacion());
 			respuesta.setPrecio(r.getPrecio());
 		}
@@ -259,13 +257,14 @@ public class EndPoint {
 		
 		ClienteDAO cliente = new ClienteDAO(peticion.getNombre(), peticion.getApellido(), 
 				peticion.getTelefono(), peticion.getCorreo(), peticion.getFormaPago());
+		String res = cliente.registrarCliente();
 		
-		if (cliente.registrarCliente() == "Exito") {
-			respuesta.setRespuesta("Se ha registrado al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en el sistema");
-		} else if (cliente.registrarCliente() == "Error") {
-			respuesta.setRespuesta("No se ha podido registrar al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en la base de datos");
-		} else if (cliente.registrarCliente() == "Duplicado") {
-			respuesta.setRespuesta("Ya existe un cliente con correo="+peticion.getCorreo()+" y telefono="+peticion.getTelefono());
+		if (res == "Error") {
+			respuesta.setRespuesta("Error");
+		} else if (res == "Duplicado") {
+			respuesta.setRespuesta("Duplicado");
+		} else if (res == "Exito"){
+			respuesta.setRespuesta("Exito");
 		}
 		
 		return respuesta;
@@ -284,13 +283,13 @@ public class EndPoint {
 		ClienteDAO cliente = new ClienteDAO(peticion.getIdCliente(),peticion.getNombre(), peticion.getApellido(), 
 				peticion.getTelefono(), peticion.getCorreo(), peticion.getFormaPago());
 		if (cliente.verificarIdCliente()) {
-			if (cliente.actualizarCliente()) {
-				respuesta.setRespuesta("Se ha actualizado al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en el sistema");
-			} else {
-				respuesta.setRespuesta("No se ha podido actualizar al cliente "+cliente.getNombre()+" "+cliente.getApellido()+" en la base de datos");
+			if (cliente.actualizarCliente() == "Exito") {
+				respuesta.setRespuesta("Exito");
+			} else if (cliente.actualizarCliente() == "Error") {
+				respuesta.setRespuesta("Error");
 			}
 		} else {
-			respuesta.setRespuesta("El idCliente que ha ingresado no existe");
+			respuesta.setRespuesta("NoExiste");
 		}
 		
 		return respuesta;
@@ -308,9 +307,9 @@ public class EndPoint {
 		EliminarClienteResponse respuesta = new EliminarClienteResponse();
 		ClienteDAO cliente = new ClienteDAO(peticion.getIdCliente());
 		if (cliente.eliminarCliente()) {
-			respuesta.setRespuesta("Se ha eliminado al cliente del sistema");
+			respuesta.setRespuesta("Exito");
 		} else {
-			respuesta.setRespuesta("No se ha podido eliminar al cliente de la base de datos");
+			respuesta.setRespuesta("Error");
 		}
 		return respuesta;
 	}
@@ -376,16 +375,16 @@ public class EndPoint {
 	@ResponsePayload
 	public RealizarCheckInResponse getRegistrarCheckIn (@RequestPayload RealizarCheckInRequest peticion) {
 		RealizarCheckInResponse respuesta = new RealizarCheckInResponse();
-		EstanciaDAO estancia = new EstanciaDAO(peticion.getNumHabitacion(), peticion.getNumAdultos(), 
-				peticion.getNumNinos(), peticion.getFechaCheckIn(), peticion.getFechaCheckOut(),
+		EstanciaDAO estancia = new EstanciaDAO(peticion.getNumHabitacion(), 
+				peticion.getNumPersonas(), peticion.getFechaCheckIn(), peticion.getFechaCheckOut(),
 				peticion.getTipoHabitacion(), peticion.getIdCliente());
 		
 		if (estancia.realizarCheckIn()) {
-			respuesta.setRespuesta("Se ha realizado el check-in en la habitacion: " + estancia.getNumHabitacion());
+			respuesta.setRespuesta("Exito");
 			respuesta.setPrecio(estancia.obtenerPrecio());
 			respuesta.setStatus(estancia.getStatus());
 		} else {
-			respuesta.setRespuesta("No se ha podido registrar el check-in en la base de datos");
+			respuesta.setRespuesta("Error");
 		}
 		
 		return respuesta;
@@ -404,10 +403,10 @@ public class EndPoint {
 		EstanciaDAO estancia = new EstanciaDAO(peticion.getIdEstancia(), peticion.getFechaCheckOut());
 		
 		if (estancia.modificarEstancia()) {
-			respuesta.setRespuesta("Se ha modificado la fecha de salida de la estancia numero: " + peticion.getIdEstancia());
+			respuesta.setRespuesta("Exito");
 			respuesta.setPrecio(estancia.obtenerPrecio());
 		} else {
-			respuesta.setRespuesta("No se ha podido modificar la fecha de salida de la estancia numero "+peticion.getIdEstancia()+" en la base de datos");
+			respuesta.setRespuesta("Error");
 		}
 		
 		return respuesta;
@@ -426,11 +425,11 @@ public class EndPoint {
 		EstanciaDAO estancia = new EstanciaDAO(peticion.getIdEstancia(), peticion.getFechaCheckOut());
 		
 		if (estancia.realizarCheckOut()) {
-			respuesta.setRespuesta("Se ha realizado el check-out de la estancia numero: " + peticion.getIdEstancia());
+			respuesta.setRespuesta("Exito");
 			respuesta.setPrecio(estancia.obtenerPrecio());
 			respuesta.setStatus(estancia.getStatus());
 		} else {
-			respuesta.setRespuesta("No se ha podido registrar el check-out en la base de datos");
+			respuesta.setRespuesta("Error");
 		}
 		
 		return respuesta;
@@ -466,8 +465,7 @@ public class EndPoint {
 			
 			respuesta.setNumHabitacion(e.getNumHabitacion());
 			respuesta.setIdCliente(e.getIdCliente());
-			respuesta.setNumAdultos(e.getNumAdultos());
-			respuesta.setNumNinos(e.getNumNinos());
+			respuesta.setNumPersonas(e.getNumPersonas());
 			respuesta.setTipoHabitacion(e.getTipoHabitacion());
 			respuesta.setStatus(e.getStatus());
 			respuesta.setPrecio(e.getPrecio());

@@ -6,8 +6,7 @@ public class Reservacion {
 	private int idReservacion;
 	private Date fechaLlegada;
 	private Date fechaSalida;
-	private int numAdultos;
-	private int numNinos;
+	private int numPersonas;
 	private String tipoHabitacion;
 	private double precio;
 	private int idCliente;
@@ -18,19 +17,17 @@ public class Reservacion {
 	 * @param idReservacion
 	 * @param fechaLlegada
 	 * @param fechaSalida
-	 * @param numAdultos
-	 * @param numNinos
+	 * @param numPersonas
 	 * @param tipoHabitacion
 	 * @param precio
 	 * @param idCliente
 	 */
-	public Reservacion(int idReservacion, Date fechaLlegada, Date fechaSalida, int numAdultos, int numNinos,
+	public Reservacion(int idReservacion, Date fechaLlegada, Date fechaSalida, int numPersonas,
 			String tipoHabitacion, double precio, int idCliente, String status) {
 		this.idReservacion = idReservacion;
 		this.fechaLlegada = fechaLlegada;
 		this.fechaSalida = fechaSalida;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.precio = precio;
 		this.idCliente = idCliente;
@@ -40,18 +37,16 @@ public class Reservacion {
 	/**
 	 * @param fechaLlegada
 	 * @param fechaSalida
-	 * @param numAdultos
-	 * @param numNinos
+	 * @param numPersonas
 	 * @param tipoHabitacion
 	 * @param precio
 	 * @param idCliente
 	 */
-	public Reservacion(Date fechaLlegada, Date fechaSalida, int numAdultos, int numNinos,
+	public Reservacion(Date fechaLlegada, Date fechaSalida, int numPersonas,
 			 String tipoHabitacion, double precio, int idCliente) {
 		this.fechaLlegada = fechaLlegada;
 		this.fechaSalida = fechaSalida;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.tipoHabitacion = tipoHabitacion;
 		this.precio = precio;
 		this.idCliente = idCliente;
@@ -107,31 +102,17 @@ public class Reservacion {
 	}
 
 	/**
-	 * @return the numAdultos
+	 * @return the numPersonas
 	 */
-	public int getNumAdultos() {
-		return numAdultos;
+	public int getNumPersonas() {
+		return numPersonas;
 	}
 
 	/**
-	 * @param numAdultos the numAdultos to set
+	 * @param numPersonas the numPersonas to set
 	 */
-	public void setNumAdultos(int numAdultos) {
-		this.numAdultos = numAdultos;
-	}
-
-	/**
-	 * @return the numNinos
-	 */
-	public int getNumNinos() {
-		return numNinos;
-	}
-
-	/**
-	 * @param numNinos the numNinos to set
-	 */
-	public void setNumNinos(int numNinos) {
-		this.numNinos = numNinos;
+	public void setNumPersonas(int numPersonas) {
+		this.numPersonas = numPersonas;
 	}
 
 	/**

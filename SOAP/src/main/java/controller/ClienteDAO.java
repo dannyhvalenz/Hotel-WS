@@ -88,6 +88,7 @@ public class ClienteDAO {
 			
 		} catch (SQLException e) {
 			resultado = "Error";
+			System.out.println("error = " + e.getMessage());
 		}
 		return resultado;
 	}
@@ -98,20 +99,20 @@ public class ClienteDAO {
 	 * Metodo para actualizar a un cliente en la Base de Datos
 	 * @return true si se actualizo el cliente de forma exitosa en la BD
 	 */
-	public boolean actualizarCliente() {
-		boolean resultado = false;
+	public String actualizarCliente() {
+		String resultado = "Error";
 		this.database = new ConexionAWS();
 		try {
 			String query = "UPDATE clientes SET"
-					+ " nombre = '"+this.nombre+"',"
-					+ " apellido = '"+this.apellido+"',"
-					+ " telefono = '"+this.telefono+"',"
-					+ " correo = '"+this.correo+"',"
-					+ " formaPago = '"+this.formaPago+"'"
-					+ " WHERE idCliente = "+this.idCliente;
+				+ " nombre = '"+this.nombre+"',"
+				+ " apellido = '"+this.apellido+"',"
+				+ " telefono = '"+this.telefono+"',"
+				+ " correo = '"+this.correo+"',"
+				+ " formaPago = '"+this.formaPago+"'"
+				+ " WHERE idCliente = "+this.idCliente;
 			this.database.connect().createStatement().execute(query);
-			
-			resultado = true;
+		
+			resultado = "Exito";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

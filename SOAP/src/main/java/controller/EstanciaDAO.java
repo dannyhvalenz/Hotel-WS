@@ -14,8 +14,7 @@ import com.proyectosw.hotel.ObtenerListaEstanciasResponse;
 public class EstanciaDAO {
 	private int idEstancia;
 	private int numHabitacion;
-	private int numAdultos;
-	private int numNinos;
+	private int numPersonas;
 	private double precio;
 	private Date fechaCheckIn;
 	private Date fechaCheckOut;
@@ -30,20 +29,19 @@ public class EstanciaDAO {
 	/**
 	 * @param idEstancia
 	 * @param numHabitacion
-	 * @param numAdultos
+	 * @param numPersonas
 	 * @param numNinos
 	 * @param fechaCheckIn
 	 * @param fechaCheckOut
 	 * @param idCliente
 	 * @param database
 	 */
-	public EstanciaDAO(int idEstancia, int numHabitacion, int numAdultos, int numNinos, 
+	public EstanciaDAO(int idEstancia, int numHabitacion, int numPersonas, 
 			String fechaCheckIn, String fechaCheckOut, String tipoHabitacion,  
 			int idCliente) {
 		this.idEstancia = idEstancia;
 		this.numHabitacion = numHabitacion;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.fechaCheckIn = Date.valueOf(fechaCheckIn);
 		this.fechaCheckOut = Date.valueOf(fechaCheckOut);
 		this.tipoHabitacion = tipoHabitacion;
@@ -54,17 +52,16 @@ public class EstanciaDAO {
 	/**
 	 * 
 	 * @param numHabitacion
-	 * @param numAdultos
+	 * @param numPersonas
 	 * @param numNinos
 	 * @param fechaCheckIn
 	 * @param fechaCheckOut
 	 * @param idCliente
 	 */
-	public EstanciaDAO(int numHabitacion, int numAdultos, int numNinos, String fechaCheckIn, 
+	public EstanciaDAO(int numHabitacion, int numPersonas, String fechaCheckIn, 
 			String fechaCheckOut, String tipoHabitacion, int idCliente) {
 		this.numHabitacion = numHabitacion;
-		this.numAdultos = numAdultos;
-		this.numNinos = numNinos;
+		this.numPersonas = numPersonas;
 		this.fechaCheckIn = Date.valueOf(fechaCheckIn);
 		this.fechaCheckOut = Date.valueOf(fechaCheckOut);
 		this.tipoHabitacion = tipoHabitacion;
@@ -133,8 +130,8 @@ public class EstanciaDAO {
 		this.database = new ConexionAWS();
 		try {
 			this.database.connect().createStatement().execute(
-					"INSERT INTO estancias (numHabitacion, numAdultos, numNinos, precio, fechaCheckIn, fechaCheckOut, status, tipoHabitacion, idCliente) VALUES "
-					+ "('"+this.numHabitacion+"','"+this.numAdultos+"','"+this.numNinos+"','"+this.precio+"','"+this.fechaCheckIn
+					"INSERT INTO estancias (numHabitacion, numPersonas, precio, fechaCheckIn, fechaCheckOut, status, tipoHabitacion, idCliente) VALUES "
+					+ "('"+this.numHabitacion+"','"+this.numPersonas+"','"+this.precio+"','"+this.fechaCheckIn
 					+"','"+this.fechaCheckOut+"','"+this.status+"','"+"','"+this.tipoHabitacion+"','"+this.idCliente+"')");
 			this.database.connect().createStatement().execute(
 					"UPDATE habitaciones SET status = 'Ocupada' WHERE numHabitacion='"+this.numHabitacion+"'");
@@ -253,8 +250,8 @@ public class EstanciaDAO {
 		try {
 			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM estancias WHERE idEstancia="+id);
 			while(rs.next()) {
-				estancia = new Estancia(rs.getInt("numHabitacion"), rs.getInt("numAdultos")
-						, rs.getInt("numNinos"), rs.getDouble("precio"), rs.getDate("fechaCheckIn")
+				estancia = new Estancia(rs.getInt("numHabitacion"), rs.getInt("numPersonas")
+						, rs.getDouble("precio"), rs.getDate("fechaCheckIn")
 						, rs.getDate("fechaCheckOut"), rs.getString("status")
 						, rs.getString("tipoHabitacion"), rs.getInt("idCliente"));
 			}
@@ -271,8 +268,8 @@ public class EstanciaDAO {
 		try {
 			ResultSet rs = this.database.connect().createStatement().executeQuery("SELECT * FROM estancias");
 			while(rs.next()) {
-				ObtenerListaEstanciasResponse.Estancia estancia = new ObtenerListaEstanciasResponse.Estancia(rs.getInt("numHabitacion"), rs.getInt("numAdultos")
-						, rs.getInt("numNinos"), rs.getString("tipoHabitacion"),  rs.getDate("fechaCheckIn").toString()
+				ObtenerListaEstanciasResponse.Estancia estancia = new ObtenerListaEstanciasResponse.Estancia(rs.getInt("numHabitacion"), rs.getInt("numPersonas")
+						, rs.getString("tipoHabitacion"),  rs.getDate("fechaCheckIn").toString()
 						, rs.getDate("fechaCheckOut").toString() , rs.getString("status")
 						,  rs.getDouble("precio"), rs.getInt("idCliente"), rs.getInt("idEstancia"));
 				estancias.add(estancia);
