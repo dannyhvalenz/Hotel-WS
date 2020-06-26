@@ -74,7 +74,7 @@
 
 ## Clases
 
-![Diagrama de clases](https://github.com/dannyhvalenz/Hotel-WS/blob/master/docs/Diagrama-de-clases.png)
+![Diagrama de clases](https://github.com/dannyhvalenz/Hotel-WS/blob/master/DOCS/Diagrama-de-clases.png)
 
 ### Reservación
 
