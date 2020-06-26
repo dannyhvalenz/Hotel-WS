@@ -10,9 +10,9 @@ Sistema web de un hotel
 
 ## Documentación
 
-[Link a la Documentación](https://github.com/dannyhvalenz/Hotel-WS/tree/master/DOCS)
+[Documenteacion del servidor SOAP](https://github.com/dannyhvalenz/Hotel-WS/tree/master/DOCS)
 
-[Documentacion del servidor REST](https://web.postman.co/collections/11546995-9a77aef4-3685-4a84-bd39-22b464f5d543?version=latest&workspace=7abae2ce-7627-4de3-87f9-5f1de163e351#c67e6027-ffc4-4bfb-9ce7-1c2b8eacfc9a)
+[Documentacion del servidor REST](https://documenter.getpostman.com/view/11546995/T17Aiq8h)
 
 
 ## Instalación
